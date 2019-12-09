@@ -4,14 +4,20 @@ import 'package:flutter/material.dart';
 
 abstract class Styles {
   //colors
-  static const Color whiteColor = Color(0xffffffff);
-  static const Color blackColor = Color(0xff0000000);
-  static const Color greyColor = Color(0xffd7d8da);
-  static const Color lightGreyColor = Color(0xffcecfd2);
+  static const Color darkFontColor = Color(0x232323);
+  static const Color IconsNTextColor = Color(0x787878);
+  static const Color greyTextColor = Color.fromRGBO(120, 120, 120, 1);
+  static const Color strongRed = Color.fromRGBO(212, 0, 28, 1);
+  static const Color lightRed = Color.fromRGBO(255, 91, 91, 1);
+  static const Color boxesNarrowsGrey = Color.fromRGBO(227, 227, 227, 1);
+//rgb(255,91,91)
+  static const Color taiaGreen = Color.fromRGBO(0, 212, 183, 1);
+
 
   static const Color transparent = Colors.transparent;
 
   static const Color textDarkColor = Color(0xFF343434);
+  static const Color whiteColor = Colors.white;
 
   static const Color redColor = Color(0xFFC82727);
   static const Color textFieldGreyColor = Color(0xFFFFFFFF);
@@ -34,7 +40,7 @@ abstract class Styles {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter);
 
-  //Strings
+/*  //Strings
   static const TextStyle boldMediumSizedWhiteTextStyle = TextStyle(
       color: Styles.whiteColor, fontWeight: FontWeight.w500, fontSize: 16);
   static const TextStyle smallGreenTextStyle = TextStyle(
@@ -48,5 +54,5 @@ abstract class Styles {
   static const TextStyle caseItemNameTextStyle = TextStyle(
       color: Styles.blackColor, fontSize: 20, fontWeight: FontWeight.bold);
   static const TextStyle caseItemDateTextStyle = TextStyle(
-      color: Styles.blackColor, fontSize: 18, fontWeight: FontWeight.bold);
+      color: Styles.blackColor, fontSize: 18, fontWeight: FontWeight.bold);*/
 }
