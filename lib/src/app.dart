@@ -6,9 +6,12 @@ import 'package:flutter_taia_care/src/preferences/shared_pref.dart';
 import 'package:flutter_taia_care/src/resources/styles.dart';
 import 'package:flutter_taia_care/src/ui/about.dart';
 import 'package:flutter_taia_care/src/ui/account_registration.dart';
+import 'package:flutter_taia_care/src/ui/add_medication.dart';
+import 'package:flutter_taia_care/src/ui/connect_doctor.dart';
 import 'package:flutter_taia_care/src/ui/dashboard.dart';
 import 'package:flutter_taia_care/src/ui/delete_account.dart';
 import 'package:flutter_taia_care/src/ui/doctor_appointments.dart';
+import 'package:flutter_taia_care/src/ui/doctor_appointments_detail.dart';
 import 'package:flutter_taia_care/src/ui/feedback.dart' as prefix0;
 import 'package:flutter_taia_care/src/ui/general_information.dart';
 import 'package:flutter_taia_care/src/ui/homepage.dart';
@@ -17,10 +20,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_taia_care/src/ui/login.dart';
 import 'package:flutter_taia_care/src/ui/medication.dart';
 import 'package:flutter_taia_care/src/ui/medicine_details.dart';
+import 'package:flutter_taia_care/src/ui/messages_doctor.dart';
+import 'package:flutter_taia_care/src/ui/notification_settings.dart';
 import 'package:flutter_taia_care/src/ui/request_data.dart';
 import 'package:flutter_taia_care/src/ui/reset_password.dart';
 import 'package:flutter_taia_care/src/ui/send_feedback.dart';
+import 'package:flutter_taia_care/src/ui/set_doctor_appointments.dart';
 import 'package:flutter_taia_care/src/ui/settings.dart';
+import 'package:flutter_taia_care/src/ui/share_report.dart';
+import 'package:flutter_taia_care/src/ui/treatment_plan.dart';
 import 'package:flutter_taia_care/src/ui/user_account.dart';
 import 'package:flutter_taia_care/src/ui/your_doctor.dart';
 import 'package:flutter_taia_care/src/ui/your_profile.dart';
@@ -140,6 +148,14 @@ class _MyAppState extends State<MyApp> {
           Constant.REQUESTDATA: (BuildContext context) => RequestData(),
           Constant.DELETEACCOUNT: (BuildContext context) => DeleteAccount(),
           Constant.DOCTORAPPOINTMENTS: (BuildContext context) => DoctorAppointments(),
+          Constant.DOCTORAPPOINTMENTSDETAILS: (BuildContext context) => DoctorAppointmentDetails(),
+          Constant.SETDOCTORAPPOINTMENTS: (BuildContext context) => SetDoctorAppointments(),
+          Constant.MESSAGESDOCTOR: (BuildContext context) => MessagesDoctor(),
+          Constant.SHAREREPORT: (BuildContext context) => ShareReport(),
+          Constant.CONNECTDOCTOR: (BuildContext context) => ConnectDoctor(),
+          Constant.NOTIFICATIONSETTINGS: (BuildContext context) => NotificationSettings(),
+          Constant.ADDMEDICATION: (BuildContext context) => AddMedication(),
+          Constant.TREATMENTPLAN: (BuildContext context) => TreatmentPlan(),
 
         },
         initialRoute: Constant.INTRO,

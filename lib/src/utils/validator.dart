@@ -28,7 +28,7 @@ class Validator {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
-      return "Email is Required !";
+      return "Gebe eine gültige E-Mail-Adresse ein";
     } else if (!regExp.hasMatch(value)) {
       return "Invalid Email !";
     } else {
@@ -37,9 +37,13 @@ class Validator {
   }
 
   String validatePassword(String value) {
+    String pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{8,}$';
+    RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
       return "Password is Required !";
-    } else {
+    } else if(!regExp.hasMatch(value)){
+      return "Mindestents 8 Zeichen, einen Großbuchstaben, einen Kleinbuchtaben und ein Sonderzeichen";
+    }else {
       return null;
     }
   }

@@ -18,6 +18,14 @@ class Constant {
   static const String REQUESTDATA = "requestdata";
   static const String DELETEACCOUNT = "deleteaccount";
   static const String DOCTORAPPOINTMENTS = "doctorappointments";
+  static const String DOCTORAPPOINTMENTSDETAILS = "doctorappointmentsdetails";
+  static const String SETDOCTORAPPOINTMENTS = "setdoctorappointments";
+  static const String MESSAGESDOCTOR = "messagesdoctor";
+  static const String SHAREREPORT = "sharereport";
+  static const String CONNECTDOCTOR = "connectdoctor";
+  static const String NOTIFICATIONSETTINGS = "notificationsettings";
+  static const String ADDMEDICATION = "addmedication";
+  static const String TREATMENTPLAN = "treatmentplan";
 
 
   static const String ROBOTO = 'Roboto';

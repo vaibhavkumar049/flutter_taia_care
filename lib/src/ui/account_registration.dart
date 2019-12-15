@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_taia_care/src/constants/constants.dart';
+import 'package:flutter_taia_care/src/model/list_model.dart';
 import 'package:flutter_taia_care/src/provider/register_viewmodel.dart';
 import 'package:flutter_taia_care/src/resources/styles.dart';
 import 'package:flutter_taia_care/src/ui/widgets/custom_alertdialog.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_taia_care/src/ui/widgets/custom_checkbox.dart';
 import 'package:flutter_taia_care/src/utils/base_view.dart';
 import 'package:flutter_taia_care/src/utils/validator.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RegisterAccount extends StatefulWidget {
   @override
@@ -23,32 +25,12 @@ class _RegisterAccountState extends State<RegisterAccount> {
   bool visibility = false;
   GlobalKey<FormState> _userKey = GlobalKey();
   PageController _pageController = PageController();
-  List<ListModel> _checkList = [
-    ListModel(
-      text: "Afroamerikanisch",
-      status: false,
-    ),
-    ListModel(
-      text: "Asiatisch",
-      status: false,
-    ),
-    ListModel(
-      text: "Europäisch /Kaukasisch",
-      status: false,
-    ),
-    ListModel(
-      text: "Hispanisch /Lateinamerikanisch",
-      status: false,
-    ),
-    ListModel(
-      text: "Ureinwohner /Indianer",
-      status: false,
-    ),
-    ListModel(
-      text: "Anderes",
-      status: false,
-    ),
-  ];
+  List<ListModel> _checkList= List();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+  TextEditingController codeController = TextEditingController();
+
+
 
   Map<String, bool> values = {
     'Afroamerikanisch': true,
@@ -59,6 +41,37 @@ class _RegisterAccountState extends State<RegisterAccount> {
     'Anderes': false,
   };
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _checkList = [
+      ListModel(
+        text: "Afroamerikanisch",
+        status: false,
+      ),
+      ListModel(
+        text: "Asiatisch",
+        status: false,
+      ),
+      ListModel(
+        text: "Europäisch /Kaukasisch",
+        status: false,
+      ),
+      ListModel(
+        text: "Hispanisch /Lateinamerikanisch",
+        status: false,
+      ),
+      ListModel(
+        text: "Ureinwohner /Indianer",
+        status: false,
+      ),
+      ListModel(
+        text: "Anderes",
+        status: false,
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +86,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
           body: Container(
             height: _height,
             width: _width,
-            padding: EdgeInsets.only(left: 15, right: 15, bottom: 20, top: 15),
+            padding: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 15),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -81,15 +94,32 @@ class _RegisterAccountState extends State<RegisterAccount> {
                   children: <Widget>[
                     Text("Schritt ${model.pageCount} von 6"),
                     SizedBox(height: 10,),
-                    LinearProgressIndicator(
-                      value: model.indicatorValue,
-                      backgroundColor: Colors.grey[200],
+                    Row(
+                      children: <Widget>[
+                       IconButton(icon: Icon( Icons.arrow_back, color: Styles.taiaGreen, size: _width/15,),
+                            onPressed: () {
+                          if(pageCount>1){
+                            model.setPageCount(--pageCount);
+                            model.setIndicatorValue(indicatorValue=indicatorValue-0.2);
+                          } else {
+                            Navigator.of(context).pop();
+                          }
+                            }),
+                        Expanded(
+                          flex: 1,
+                          child: LinearProgressIndicator(
+                            value: model.indicatorValue,
+                            backgroundColor: Colors.grey[200],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
 
                 Container(
-                  height: _height/2,
+                  height: _height/1.7,
+                  //color: Colors.red,
                   child: PageView.builder(
                     controller: _pageController,
                     physics: NeverScrollableScrollPhysics(),
@@ -99,7 +129,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                    },
                   ),
                 ),
-
+                _errorMessage(model)!=null?Flexible(child: Text(_errorMessage(model), style: TextStyle(color: Styles.strongRed),)):SizedBox(),
                 CustomButton(
                   onTap: (){
                    // Navigator.of(context).pushReplacementNamed(Constant.REGISTER);
@@ -107,32 +137,6 @@ class _RegisterAccountState extends State<RegisterAccount> {
                     bool formValidation;
                     formValidation = model.pageCount==1? _userKey.currentState.validate():true;
 
-                  /*  if(formValidation && model.pageCount==1 || model.firstPageValidation){
-                      model.setFirstPageValidation(true);
-                      print("Next");
-                      model.pageCount<=5?model.setPageCount(++pageCount):null;
-                      model.setIndicatorValue(indicatorValue=indicatorValue+0.2);
-                      print("Pagecount value: ${model.pageCount}");
-                      if(_validateSecond(model) && model.pageCount ==2 || model.secondPageValidation){
-                        model.setSecondPageValidation(true);
-                        print("Next");
-                        model.pageCount<=5?model.setPageCount(++pageCount):null;
-                        model.setIndicatorValue(indicatorValue=indicatorValue+0.2);
-                        print("Pagecount value: ${model.pageCount}");
-                        if(_validateThird(model) && model.pageCount ==3 || model.thirdPageValidation){
-                          print("Next");
-                          model.pageCount<=5?model.setPageCount(++pageCount):null;
-                          model.setIndicatorValue(indicatorValue=indicatorValue+0.2);
-                          print("Pagecount value: ${model.pageCount}");
-                        } else{
-                          print("Third page error");
-                        }
-                      } else {
-                        print('Second page error');
-                      }
-                    } else {
-                      print('First page error');
-                    }*/
 
                   if(model.pageCount ==1){
                     if(formValidation || model.firstPageValidation){
@@ -141,41 +145,38 @@ class _RegisterAccountState extends State<RegisterAccount> {
                       model.pageCount<=5?model.setPageCount(++pageCount):null;
                       model.setIndicatorValue(indicatorValue=indicatorValue+0.2);
                       print("Pagecount value: ${model.pageCount}");
-                    } else {
-                      CustomDialogBox.showAlertDialog(context, "Alert!", "Bitte gebe eine gültige E-Mail Adresse und ein gültiges Passwort ein", width: _width);
-                      print("First page error");
                     }
                   } else if(model.pageCount==2){
-                    if(_validateSecond(model) || model.secondPageValidation){
+                    if(_validateSecond(model)==null || model.secondPageValidation){
                       model.setSecondPageValidation(true);
                       print("Next");
                       model.pageCount<=5?model.setPageCount(++pageCount):null;
                       model.setIndicatorValue(indicatorValue=indicatorValue+0.2);
                       print("Pagecount value: ${model.pageCount}");
                     } else {
-
+                     // CustomDialogBox.showAlertDialog(context, "Alert!", "Bitte allen Aussagen zustimmen, um fortzufahren", width: _width);
                       print("Second Page Error");
                     }
                   } else if( model.pageCount==3){
-                    if(_validateThird(model) || model.thirdPageValidation){
+                    if(_validateThird(model)==null || model.thirdPageValidation){
                       model.setThirdPageValidation(true);
                       print("Next");
                       model.pageCount<=5?model.setPageCount(++pageCount):null;
                       model.setIndicatorValue(indicatorValue=indicatorValue+0.2);
                       print("Pagecount value: ${model.pageCount}");
                     } else {
-                      CustomDialogBox.showAlertDialog(context, "Alert!", "Bitte verbinde dich mit deinem Arzt. Wenn du keinen Einladungscode bekommen hast, dann markiere das Feld ", width: _width);
+                      //CustomDialogBox.showAlertDialog(context, "Alert!", "Bitte verbinde dich mit deinem Arzt. Wenn du keinen Einladungscode bekommen hast, dann markiere das Feld ", width: _width);
                       print("Third Page Error");
                     }
                   } else if(model.pageCount ==4){
-                    if(_validateFourth(model) || model.fourthPagevalidation){
+                    if(_validateFourth(model)==null || model.fourthPagevalidation){
                       model.setFourthPagevalidation(true);
                       print("Next");
                       model.pageCount<=5?model.setPageCount(++pageCount):null;
                       model.setIndicatorValue(indicatorValue=indicatorValue+0.2);
                       print("Pagecount value: ${model.pageCount}");
                     } else {
-                      CustomDialogBox.showAlertDialog(context, "Alert!", "Bitte gebe dein Geschlecht an", width: _width);
+                     // CustomDialogBox.showAlertDialog(context, "Alert!", "Bitte gebe dein Geschlecht an", width: _width);
                       print("Fourth Page Error");
                     }
                   } else if(model.pageCount == 5){
@@ -186,29 +187,19 @@ class _RegisterAccountState extends State<RegisterAccount> {
                       model.setIndicatorValue(indicatorValue=indicatorValue+0.2);
                       print("Pagecount value: ${model.pageCount}");
                     } else {
-                      CustomDialogBox.showAlertDialog(context, "Alert!", "Bitte gebe deine Ethnizität an", width: _width);
+                      //CustomDialogBox.showAlertDialog(context, "Alert!", "Bitte gebe deine Ethnizität an", width: _width);
                       print("Fifth Page Error");
                     }
                   } else if(model.pageCount ==6){
                     if(model.date !=null){
                       Navigator.of(context).pushReplacementNamed(Constant.DASHBOARD, arguments: 0);
                     } else {
-                      CustomDialogBox.showAlertDialog(context, "Alert!", "Bitte wähle dein Geburtsdatum aus", width: _width);
+                      //CustomDialogBox.showAlertDialog(context, "Alert!", "Bitte wähle dein Geburtsdatum aus", width: _width);
                       print("Sixt Page Error");
                     }
                   }
-
-                   /* if(formValidation && model.pageCount<=5 && _validateSecond(model) && _validateThird(model)){
-                      print("Next");
-                      model.pageCount<=5?model.setPageCount(++pageCount):null;
-                      model.setIndicatorValue(indicatorValue=indicatorValue+0.2);
-                      print("Pagecount value: ${model.pageCount}");
-                    } else if(model.pageCount==6){
-                      Navigator.of(context).pushReplacementNamed(Constant.DASHBOARD, arguments: 0);
-                    }*/
-
                   },
-                  text: model.pageCount==6?"FERTIG":"WEITIER",
+                  text: model.pageCount==6?"FERTIG":"WEITER",
                   isDelete: false,
                 ),
 
@@ -232,28 +223,33 @@ class _RegisterAccountState extends State<RegisterAccount> {
     return firstPage(model);
   }
 
-  Widget firstPage(RegisterViewModel model){
+  Widget  firstPage(RegisterViewModel model){
     return Form(
       key: _userKey,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text("Account erstellen", style: TextStyle(fontSize:  _width/12, fontWeight: FontWeight.bold),),
+        Text("Konto erstellen", style: TextStyle(fontSize:  _width/12, fontWeight: FontWeight.bold),),
         SizedBox( height: 30,),
         TextFormField(
+          controller: emailController,
           autovalidate: model.autoValidate,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            hintText: "E-Mail"
+            hintText: "E-Mail",
+            hintStyle: TextStyle(fontSize: _width/20)
           ),
           validator: validator.validateEmail,
         ),
         SizedBox( height: 30,),
         TextFormField(
+          controller: passController,
           validator: validator.validatePassword,
           autovalidate: model.autoValidate,
           obscureText: visibility?false:true,
           decoration: InputDecoration(
               hintText: "Password",
+              hintStyle: TextStyle(fontSize: _width/20),
             suffixIcon: InkWell(
               onTap: (){
                 setState(() {
@@ -277,104 +273,191 @@ class _RegisterAccountState extends State<RegisterAccount> {
 
   Widget secondPage(RegisterViewModel model){
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text("Datenschutz", style: TextStyle(fontWeight: FontWeight.bold, fontSize:  _width/12),),
+        Text("Einverständnis", style: TextStyle(fontWeight: FontWeight.bold, fontSize:  _width/12),),
         SizedBox(height: 10,),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                    child:
-                         Text.rich(
-                      TextSpan(
-                        text: "Ich akzeptiere die\n",
+        InkWell(
+          onTap: (){
+            model.setCheckbox1(!model.checkbox1);
+          },
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Flexible(
+                      child:
+                           Text.rich(
+                        TextSpan(
+                          text: "Ich akzeptiere die\n",
+                          style: TextStyle(fontSize: 18),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: "Datenschutzerklärung\t",
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.blue,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "und\n",
+                            ),
+                            TextSpan(
+                              text: "Nutzungsbedingungen.",
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                         ),
+                  Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                        color: model.checkbox1?Styles.taiaGreen:Colors.transparent,
+                        border: !model.checkbox1?Border.all(color: Styles.boxesNarrowsGrey):Border(),
+                      borderRadius: BorderRadius.all(Radius.circular(5))
+                    ),
+                    child: model.checkbox1?Icon(Icons.check, color: Colors.white,):SizedBox(),
+                  ),
+                 /* Checkbox(
+                    value: model.checkbox1,
+                    onChanged: (value) {
+                      model.setCheckbox1(!model.checkbox1);
+                    },
+                  ),*/
+                ],
+              ),
+            ),
+          ),
+        ),
+        InkWell(
+          onTap: (){
+            model.setCheckbox2(!model.checkbox2);
+          },
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Flexible(
+                      child:
+                      Text(
+                        "Ich stimme der Verarbeitung meiner persönlichen Gesundheitsdaten zu, um die Funktionen der taiaCare App nuzen zu können.",
                         style: TextStyle(fontSize: 18),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: "Datenschutzerklärung\t",
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.blue,
-                            ),
-                          ),
-                          TextSpan(
-                            text: "und\n",
-                          ),
-                          TextSpan(
-                            text: "Nutzungsbedingungen.",
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                       ),
-                Checkbox(
-                  value: model.checkbox1,
-                  onChanged: (value) {
-                    model.setCheckbox1(!model.checkbox1);
-                  },
-                ),
-              ],
+                      )
+                         ),
+                  SizedBox(width: 10,),
+                  Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: model.checkbox2?Styles.taiaGreen:Colors.transparent,
+                        border: !model.checkbox2?Border.all(color: Styles.boxesNarrowsGrey):Border(),
+                        borderRadius: BorderRadius.all(Radius.circular(5))
+                    ),
+                    child: model.checkbox2?Icon(Icons.check, color: Colors.white,):SizedBox(),
+                  ),
+                 /* Checkbox(
+                    value: model.checkbox2,
+                    onChanged: (value) {
+                      model.setCheckbox2(!model.checkbox2);
+                    },
+                  ),*/
+                ],
+              ),
             ),
           ),
         ),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                    child:
-                    Text(
-                      "Ich stimme der Verarbeitung meiner persönlichen Gesundheitsdaten zu, um die Funktionen der taiaCare App nuzen zu können.",
-                      style: TextStyle(fontSize: 18),
-                    )
-                       ),
-                Checkbox(
-                  value: model.checkbox2,
-                  onChanged: (value) {
-                    model.setCheckbox2(!model.checkbox2);
-                  },
-                ),
-              ],
+        InkWell(
+          onTap: (){
+            model.setCheckbox3(!model.checkbox3);
+          },
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Flexible(
+                      child:  Text(
+                        "Ich bin 16 Jahre oder älter",
+                        style: TextStyle(fontSize: 18),
+                      )
+                         ),
+                  Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: model.checkbox3?Styles.taiaGreen:Colors.transparent,
+                        border: !model.checkbox3?Border.all(color: Styles.boxesNarrowsGrey):Border(),
+                        borderRadius: BorderRadius.all(Radius.circular(5))
+                    ),
+                    child: model.checkbox3?Icon(Icons.check, color: Colors.white,):SizedBox(),
+                  ),
+                 /* Checkbox(
+                    value: model.checkbox3,
+                    onChanged: (value) {
+                      model.setCheckbox3(!model.checkbox3);
+                    },
+                  ),*/
+                ],
+              ),
             ),
           ),
         ),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                    child:  Text(
-                      "Ich bin 16 Jahre oder älter",
-                      style: TextStyle(fontSize: 18),
-                    )
-
-                       ),
-                Checkbox(
-                  value: model.checkbox3,
-                  onChanged: (value) {
-                    model.setCheckbox3(!model.checkbox3);
-                  },
-                ),
-              ],
+        InkWell(
+          onTap: (){
+            model.setCheckbox6(!model.checkbox6);
+          },
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Flexible(
+                      child:  Text(
+                        "Mir ist bewusst, dass wenn ich falsche Angaben mache ich auch ein falsches Ergebnis erhalten werde.",
+                        style: TextStyle(fontSize: 18),
+                      )
+                         ),
+                  Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: model.checkbox6?Styles.taiaGreen:Colors.transparent,
+                        border: !model.checkbox6?Border.all(color: Styles.boxesNarrowsGrey):Border(),
+                        borderRadius: BorderRadius.all(Radius.circular(5))
+                    ),
+                    child: model.checkbox6?Icon(Icons.check, color: Colors.white,):SizedBox(),
+                  ),
+                 /* Checkbox(
+                    value: model.checkbox3,
+                    onChanged: (value) {
+                      model.setCheckbox3(!model.checkbox3);
+                    },
+                  ),*/
+                ],
+              ),
             ),
           ),
         ),
-        /*CustomCheckBox(
+      /*  CustomCheckBox(
           isRichText: true,
           checkValue: model.checkbox1,
-        ),*/
-      /*  CustomCheckBox(
+        ),
+        CustomCheckBox(
           isRichText: false,
           checkValue: model.checkbox2,
           text: "Ich stimme der Verarbeitung meiner persönlichen Gesundheitsdaten zu, um die Funktionen der taiaCare App nuzen zu können.",
@@ -388,75 +471,135 @@ class _RegisterAccountState extends State<RegisterAccount> {
     );
   }
 
-  bool _validateSecond(RegisterViewModel model){
-    if(model.checkbox1 && model.checkbox2 && model.checkbox3){
-      return true;
+  String _validateSecond(RegisterViewModel model){
+    if(model.checkbox1 && model.checkbox2 && model.checkbox3 && model.checkbox6){
+      return null;
     }
-    return false;
+    return "Bitte allen Aussagen zustimmen, um fortzufahren";
   }
   
   Widget thirdPage(RegisterViewModel model){
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text("Verbinde dich mit" "\ndeinem Arzt", style: TextStyle(fontSize:  _width/12, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+        Text("Mit Arzt verbinden", style: TextStyle(fontSize:  _width/12, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
         SizedBox(height: 10,),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("Einladungscode",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
-                Container(
-                  height: 1,
-                  width: _width,
-                  color: Colors.black,
-                  margin: EdgeInsets.only(top: 8, bottom: 8),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Flexible(
-                        child: Text(
-                          "Ich stimme zu, dass mein Arzt Zugriff auf meine Daten hat. Siehe Datenschutzrichtlinie.",
-                          style: TextStyle(fontSize: 18),
-                        )),
-                    Checkbox(
-                      value: model.checkbox4,
-                      onChanged: (value) {
-                        model.setCheckbox4(!model.checkbox4);
-                      },
+        InkWell(
+          onTap: (){
+              model.setCheckbox4(!model.checkbox4);
+              model.setCheckbox5(false);
+
+          },
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  TextField(
+                    controller: codeController,
+                    decoration: InputDecoration(
+                      hintText: "Einladungscode",
+                      hintStyle: TextStyle(fontWeight: FontWeight.bold)
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                 SizedBox(height: 5,),
+                 /* Text("Einladungscode",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),),
+                  Container(
+                    height: 1,
+                    width: _width,
+                    color: Colors.black,
+                    margin: EdgeInsets.only(top: 8, bottom: 8),
+                  ),*/
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Flexible(
+                          child: Text.rich(
+                            TextSpan(
+                              text: "Ich stimme zu, dass mein Arzt Zugriff auf meine Daten hat. Siehe\t",
+                              style: TextStyle(fontSize: _width/25),
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: "Datenschutzrichtlinie\t",
+                                  style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ) ),
+                         /* Text(
+                            "Ich stimme zu, dass mein Arzt Zugriff auf meine Daten hat. Siehe Datenschutzrichtlinie.",
+                            style: TextStyle(fontSize: _width/25),
+                          )),*/
+                      Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            color: model.checkbox4?Styles.taiaGreen:Colors.transparent,
+                            border: !model.checkbox4?Border.all(color: Styles.boxesNarrowsGrey):Border(),
+                            borderRadius: BorderRadius.all(Radius.circular(5))
+                        ),
+                        child: model.checkbox4?Icon(Icons.check, color: Colors.white,):SizedBox(),
+                      ),
+                     /* Checkbox(
+                        value: model.checkbox4,
+                        onChanged: (value) {
+                          model.setCheckbox4(!model.checkbox4);
+                        },
+                      ),*/
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Flexible(
-                    child: Text(
-                      "Ich habe keinen Einladungscode",
-                      style: TextStyle(fontSize: 18),
-                    )),
-                Checkbox(
-                  value: model.checkbox5,
-                  onChanged: (value) {
-                    model.setCheckbox5(!model.checkbox5);
-                  },
-                ),
-              ],
+        InkWell(
+          onTap: (){
+              model.setCheckbox5(!model.checkbox5);
+              model.setCheckbox4(false);
+              codeController.clear();
+
+          },
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Flexible(
+                      child: Text(
+                        "Ich habe keinen Einladungscode",
+                        style: TextStyle(fontSize: 18),
+                      )),
+                  Container(
+                    height: 30,
+                    width: 30,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: model.checkbox5?Styles.taiaGreen:Colors.transparent,
+                        border: !model.checkbox5?Border.all(color: Styles.boxesNarrowsGrey):Border(),
+                        borderRadius: BorderRadius.all(Radius.circular(30))
+                    ),
+                    child: model.checkbox5?Icon(Icons.check, color: Colors.white,):SizedBox(),
+                  ),
+                  /*Checkbox(
+                    value: model.checkbox5,
+                    onChanged: (value) {
+                      model.setCheckbox5(!model.checkbox5);
+                    },
+                  ),*/
+                ],
+              ),
             ),
           ),
         ),
-      /*  CustomCheckBox(
+     /*   CustomCheckBox(
           isRichText: false,
           checkValue: model.checkbox4,
           text: "Ich stimme zu, dass mein Arzt Zugriff auf meine Daten hat. Siehe Datenschutzrichtlinie.",
@@ -473,34 +616,49 @@ class _RegisterAccountState extends State<RegisterAccount> {
     
   }
 
-  bool _validateThird(RegisterViewModel model){
-    if(model.checkbox4 && model.checkbox5){
-      return true;
+  String _validateThird(RegisterViewModel model) {
+    if(model.checkbox5){
+      return null;
+    } else if (codeController.text.length>0 && !model.checkbox4){
+      return "Bitte bestätige, dass du zustimmst Daten mit deinem Arzt zu teilen";
+    } else if(codeController.text.length<1 && model.checkbox4){
+      return "Bitte gebe einen gültigen Einladungscode ein";
+    } else if(codeController.text.length>0 && model.checkbox4){
+      return null;
     }
-    return false;
+    return "Bitte verbinde dich mit deinem Arzt. Wenn du keinen Einladungscode bekommen hast, dann markiere das Feld “Ich habe keinen Einladungscode";
   }
   
   Widget fourthPage(RegisterViewModel model){
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text("Geschlecht", style: TextStyle(fontSize:  _width/12, fontWeight: FontWeight.bold),),
         Column(
             children: <Widget>[
               InkWell(
-                onTap: model.radioButton2 || model.radioButton3?null:() {
+                onTap: () {
                   // model.setIsTapped(!model.isTapped);
                   model.setRadioButton1(!model.radioButton1);
+                  model.setRadioButton2(false);
+                  model.setRadioButton3(false);
                 },
                 child: Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text("Weiblich", style: TextStyle(fontSize: 18),),
+                        Row(
+                          children: <Widget>[
+                            Icon(FontAwesomeIcons.mars, color: Styles.taiaGreen,),
+                            SizedBox(width: 5,),
+                            Text("Weiblich", style: TextStyle(fontSize: 18),),
+                          ],
+                        ),
                         Container(
-                          width: _width / 20,
-                          height: _height / 30,
+                          width: 30,
+                          height: 30,
                           decoration: BoxDecoration(
                               color: model.radioButton1 ? Styles.taiaGreen : Styles
                                   .whiteColor,
@@ -508,6 +666,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                                   .black : Styles.taiaGreen),
                               shape: BoxShape.circle
                           ),
+                          child:  model.radioButton1?Icon(Icons.check, color: Colors.white,):SizedBox(),
                         )
                       ],
                     ),
@@ -515,20 +674,28 @@ class _RegisterAccountState extends State<RegisterAccount> {
                 ),
               ),
               InkWell(
-                onTap: model.radioButton1 || model.radioButton3?null:() {
+                onTap: () {
                   // model.setIsTapped(!model.isTapped);
                   model.setRadioButton2(!model.radioButton2);
+                  model.setRadioButton1(false);
+                  model.setRadioButton3(false);
                 },
                 child: Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text("Männlich", style: TextStyle(fontSize: 18),),
+                        Row(
+                          children: <Widget>[
+                            Icon(FontAwesomeIcons.venus, color: Styles.taiaGreen,),
+                            SizedBox(width: 5,),
+                            Text("Männlich", style: TextStyle(fontSize: 18),),
+                          ],
+                        ),
                         Container(
-                          width: _width / 20,
-                          height: _height / 30,
+                          width: 30,
+                          height: 30,
                           decoration: BoxDecoration(
                               color: model.radioButton2 ? Styles.taiaGreen : Styles
                                   .whiteColor,
@@ -536,6 +703,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                                   .black : Styles.taiaGreen),
                               shape: BoxShape.circle
                           ),
+                          child:  model.radioButton2?Icon(Icons.check, color: Colors.white,):SizedBox(),
                         )
                       ],
                     ),
@@ -543,20 +711,28 @@ class _RegisterAccountState extends State<RegisterAccount> {
                 ),
               ),
               InkWell(
-                onTap: model.radioButton1 || model.radioButton2?null:() {
+                onTap: () {
                   // model.setIsTapped(!model.isTapped);
                   model.setRadioButton3(!model.radioButton3);
+                  model.setRadioButton1(false);
+                  model.setRadioButton2(false);
                 },
                 child: Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(15),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text("Anderes", style: TextStyle(fontSize: 18),),
+                        Row(
+                          children: <Widget>[
+                            Icon(FontAwesomeIcons.transgender, color: Styles.taiaGreen,),
+                            SizedBox(width: 5,),
+                            Text("Anderes", style: TextStyle(fontSize: 18),),
+                          ],
+                        ),
                         Container(
-                          width: _width / 20,
-                          height: _height / 30,
+                          width: 30,
+                          height: 30,
                           decoration: BoxDecoration(
                               color: model.radioButton3? Styles.taiaGreen : Styles
                                   .whiteColor,
@@ -564,6 +740,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                                   .black : Styles.taiaGreen),
                               shape: BoxShape.circle
                           ),
+                          child:  model.radioButton3?Icon(Icons.check, color: Colors.white,):SizedBox(),
                         )
                       ],
                     ),
@@ -577,15 +754,16 @@ class _RegisterAccountState extends State<RegisterAccount> {
     );
   }
 
-  bool _validateFourth(RegisterViewModel model){
+  String _validateFourth(RegisterViewModel model){
     if(model.radioButton1 || model.radioButton2 || model.radioButton3){
-      return true;
+      return null;
     }
-    return false;
+    return "Bitte gebe dein Geschlecht an";
   }
 
   Widget fifthPage(RegisterViewModel model){
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text("Ethnizität", style: TextStyle(fontSize:  _width/12, fontWeight: FontWeight.bold),),
         SizedBox(height: 10,),
@@ -593,16 +771,18 @@ class _RegisterAccountState extends State<RegisterAccount> {
           child: ListView.builder(
               itemCount: _checkList.length,
               itemBuilder: (_,index){
-                return CheckboxListTile(
-                  title: Text(_checkList[index].text),
-                  value: _checkList[index].status,
-                  onChanged: (value){
-                    model.setFifthPageValidation(!model.fifthPageValidation);
-                    setState(() {
-                      _checkList[index].status = value;
-                    });
+                return Card(
+                  child: CheckboxListTile(
+                    title: Text(_checkList[index].text),
+                    value: _checkList[index].status,
+                    onChanged: (value){
+                      model.setFifthPageValidation(!model.fifthPageValidation);
+                      setState(() {
+                        _checkList[index].status = value;
+                      });
 
-                  },
+                    },
+                  ),
                 );
               }
           ),
@@ -613,12 +793,14 @@ class _RegisterAccountState extends State<RegisterAccount> {
 
   Widget sixthPage(RegisterViewModel model){
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text("Geburtsdatum", style: TextStyle(fontSize:  _width/12, fontWeight: FontWeight.bold),),
         SizedBox(height: 10,),
         InkWell(
           onTap: (){
             DatePicker.showDatePicker(context,
+                //showTitleActions: true,
                 showTitleActions: true,
                 minTime: DateTime(2000, 3, 5),
                 maxTime: DateTime(2030, 6, 7),
@@ -643,12 +825,25 @@ class _RegisterAccountState extends State<RegisterAccount> {
     );
   }
 
+  String _errorMessage(RegisterViewModel model){
+    if(model.pageCount==1){
+      return null;
+    } else if(model.pageCount==2){
+      return _validateSecond(model);
+    }else if(model.pageCount==3){
+      return _validateThird(model);
+    } else if(model.pageCount==4){
+      return _validateFourth(model);
+    } else if(model.pageCount==5 && !model.fifthPageValidation){
+      return "Bitte gebe deine Ethnizität an";
+    } else if(model.pageCount==6 && model.date==null){
+      return "Bitte wähle dein Geburtsdatum aus";
+    }
+    return null;
+  }
+
 
 
 }
 
-class ListModel {
-  String text;
-  bool status;
-  ListModel({this.text, this.status});
-}
+

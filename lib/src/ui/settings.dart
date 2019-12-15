@@ -52,6 +52,7 @@ class _SettingsState extends State<Settings> {
                 Navigator.of(context).pushNamed(Constant.USERACCOUNT);
               }else if(index==1){
                 print("1");
+                Navigator.of(context).pushNamed(Constant.NOTIFICATIONSETTINGS);
               }
             },
             child: Container(

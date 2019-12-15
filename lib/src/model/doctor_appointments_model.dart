@@ -1,8 +1,9 @@
-class DoctorAppointmentsModel{
+class DoctorModel{
   String doctorName;
   String time;
   bool isNotification;
+  List<String> information;
 
-  DoctorAppointmentsModel({this.doctorName, this.time, this.isNotification});
+  DoctorModel({this.doctorName, this.time, this.isNotification, this.information});
 
 }

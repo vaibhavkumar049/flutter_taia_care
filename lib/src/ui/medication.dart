@@ -38,7 +38,7 @@ class _MedicationState extends State<Medication> {
               alignment: Alignment.bottomCenter,
               child: CustomButton(
                 onTap: (){
-                  //Navigator.of(context).pushReplacementNamed(Constant.REGISTER);
+                  Navigator.of(context).pushReplacementNamed(Constant.ADDMEDICATION);
                 },
                 text: "MEDIKAMENT",
                 icon: Icons.add,

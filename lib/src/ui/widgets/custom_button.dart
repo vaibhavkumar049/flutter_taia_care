@@ -19,7 +19,7 @@ class CustomButton extends StatelessWidget {
       width: _width,
       child: RaisedButton(
         onPressed: onTap,
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(15),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
         color: isDelete && isDelete!=null?Styles.lightRed:Styles.taiaGreen,
         child: Row(

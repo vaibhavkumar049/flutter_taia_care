@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_taia_care/src/model/listTile_model.dart';
+import 'package:flutter_taia_care/src/model/list_model.dart';
 import 'package:flutter_taia_care/src/provider/library_viewmodel.dart';
 import 'package:flutter_taia_care/src/resources/styles.dart';
 import 'package:flutter_taia_care/src/ui/widgets/custom_alertdialog.dart';
@@ -13,115 +14,10 @@ class _LibraryState extends State<Library> {
   double _height;
   double _width;
   LibraryViewModel model;
-  List<String> list = List();
+  List<ListModel> list = List();
   List<ListTileModel> chatList = List();
 
-  void buildDialog( double _height, double _width, LibraryViewModel model,{List<String> list}) {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return SimpleDialog(
-            children: <Widget>[
-              Container(
-              //  margin: EdgeInsets.only(bottom: 20),
-                height: _height/2,
-                width: _width,
-                //color: Colors.red,
-                child: Stack(
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only( left:8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text("Kategorie auswählen"),
-                              IconButton(onPressed: (){
-                                Navigator.of(context).pop();
-                              }
-                                  ,icon: Icon(Icons.clear, color: Styles.taiaGreen,))
-                            ],
-                          ),
-                        ),
-                        Container(
-                          height: 1,
-                          width: _width,
-                          color: Colors.grey[100],
-                        ),
-                        Container(
-                          height: _height/3,
-                          child: ListView.builder(
-                              itemCount: list.length,
-                              itemBuilder: (_,index){
-                                return InkWell(
-                                  onTap: (){
 
-                                    setState(() {
-                                      model.setIsSelected(!model.isSelected);
-                                      model.setSelectedCategory(list[index]);
-                                    });
-
-                                  print("Is Selected value: ${model.isSelected}");
-                                  print("Selected category: ${model.selectedCategory}");
-                                  },
-                                  child: Card(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(list[index]),
-                                          Container(
-                                            width: _width / 20,
-                                            height: _height / 30,
-                                            decoration: BoxDecoration(
-                                                color: model.isSelected? Styles.taiaGreen : Styles
-                                                    .whiteColor,
-                                                border: Border.all(color: !model.isSelected ? Colors
-                                                    .black : Styles.taiaGreen),
-                                                shape: BoxShape.circle
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }),
-                        ),
-                      ],
-                    ),
-
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Container(
-                            height: 1,
-                            width: _width,
-                            color: Colors.grey[100],
-                          ),
-                          SizedBox(
-                            width: _width,
-                            child: FlatButton(onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                                child: Text("AUSWÄHLEN", style: TextStyle(
-                                    color: Styles.taiaGreen),)),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          );
-        });
-  }
 
   @override
   void initState() {
@@ -129,15 +25,42 @@ class _LibraryState extends State<Library> {
     super.initState();
     model = LibraryViewModel();
     list = [
-      "Alles anzeigen",
-      "Schmerzen",
-      "Medikamente",
-      "Komorbiditäten",
-      "Krankheitsverlauf",
-      "Mentale Gesundheit",
-      "Bewegung",
-      "Ernährung",
-      "Ergotherapie",
+      ListModel(
+        text: "Alles anzeigen",
+        status: false,
+      ),
+      ListModel(
+        text: "Schmerzen",
+        status: false,
+      ),
+      ListModel(
+        text: "Medikamente",
+        status: false,
+      ),
+      ListModel(
+        text: "Komorbiditäten",
+        status: false,
+      ),
+      ListModel(
+        text: "Krankheitsverlauf",
+        status: false,
+      ),
+      ListModel(
+        text: "Mentale Gesundheit",
+        status: false,
+      ),
+      ListModel(
+        text: "Bewegung",
+        status: false,
+      ),
+      ListModel(
+        text: "Ernährung",
+        status: false,
+      ),
+      ListModel(
+        text: "Ergotherapie",
+        status: false,
+      ),
     ];
 
     chatList = [
@@ -176,7 +99,10 @@ class _LibraryState extends State<Library> {
                         Text("Kategorie", style: TextStyle(color: Styles.greyTextColor),),
                        InkWell(
                          onTap: (){
-                          buildDialog( _height, _width, model, list: list);
+                           print("is Select Category before dialog: ${model.selectedCategory}");
+                         CustomDialogBox.buildDialog( context,"Kategorie auswählen",_height, _width, list: list);
+                           print("is Select Category after  dialog: ${model.selectedCategory}");
+                          //CustomDialog( _height, _width, model,list);
                          },
                          child: Row(
                            children: <Widget>[
@@ -249,5 +175,131 @@ class _LibraryState extends State<Library> {
     );
   }
 }
+
+class CustomDialog extends StatefulWidget {
+  double height;
+  double width;
+  List<ListModel> list;
+  LibraryViewModel model;
+
+  CustomDialog(this.height, this.width, this.list, this.model);
+
+  @override
+  _CustomDialogState createState() => _CustomDialogState();
+}
+
+class _CustomDialogState extends State<CustomDialog> {
+
+
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      children: <Widget>[
+        Container(
+          //  margin: EdgeInsets.only(bottom: 20),
+          height: widget.height/2,
+          width: widget.width,
+          //color: Colors.red,
+          child: Stack(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only( left:8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text("Kategorie auswählen"),
+                        IconButton(onPressed: (){
+                          Navigator.of(context).pop();
+                        }
+                            ,icon: Icon(Icons.clear, color: Styles.taiaGreen,))
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 1,
+                    width: widget.width,
+                    color: Colors.grey[100],
+                  ),
+                  Container(
+                    height: widget.height/3,
+                    child: ListView.builder(
+                        itemCount: widget.list.length,
+                        itemBuilder: (_,index){
+                          return InkWell(
+                            onTap: (){
+//                                    model.setIsSelected(!list[index].status);
+                             widget.model.setSelectedCategory(widget.list[index].text);
+                                setState(() {
+                                  widget.list.forEach((element) => element.status = false);
+                                  widget.list[index].status = !widget.list[index].status;
+                                });
+
+
+
+                              print("Is Selected value: ${widget.model.isSelected}");
+                              print("Selected category: ${widget.model.selectedCategory}");
+                            },
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(widget.list[index].text),
+                                    Container(
+                                      width: widget.width / 20,
+                                      height: widget.height / 30,
+                                      decoration: BoxDecoration(
+                                          color: widget.list[index].status? Styles.taiaGreen : Styles
+                                              .whiteColor,
+                                          border: Border.all(color: !widget.list[index].status ? Colors
+                                              .black : Styles.taiaGreen),
+                                          shape: BoxShape.circle
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                ],
+              ),
+
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Container(
+                      height: 1,
+                      width: widget.width,
+                      color: Colors.grey[100],
+                    ),
+                    SizedBox(
+                      width: widget.width,
+                      child: FlatButton(onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                          child: Text("AUSWÄHLEN", style: TextStyle(
+                              color: Styles.taiaGreen),)),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
 
 

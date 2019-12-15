@@ -52,10 +52,13 @@ class _YourDoctorState extends State<YourDoctor> {
                 Navigator.of(context).pushNamed(Constant.DOCTORAPPOINTMENTS);
               }else if(index==1){
                 print("1");
+                Navigator.of(context).pushNamed(Constant.MESSAGESDOCTOR);
               } else if(index==2){
                 print("2");
+                Navigator.of(context).pushNamed(Constant.SHAREREPORT);
               }else if(index==3){
                 print("3");
+                Navigator.of(context).pushNamed(Constant.CONNECTDOCTOR);
               }
             },
             child: Container(

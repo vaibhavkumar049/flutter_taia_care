@@ -9,6 +9,15 @@ class RegisterViewModel extends BaseModel {
   bool _checkbox3 = false;
   bool _checkbox4 = false;
   bool _checkbox5 = false;
+  bool _checkbox6 = false;
+
+  bool get checkbox6 => _checkbox6;
+
+  setCheckbox6(bool value) {
+    _checkbox6 = value;
+    notifyListeners();
+  }
+
   bool _firstPageValidation=false;
   bool _secondPageValidation = false;
   bool _thirdPageValidation = false;

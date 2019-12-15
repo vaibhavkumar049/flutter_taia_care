@@ -76,14 +76,21 @@ class _IntroSliderState extends State<IntroSlider> {
         body: Container(
           height: _height,
           width: _width,
-          padding: EdgeInsets.all(5),
+          padding: EdgeInsets.all(20),
          // color: Styles.whiteColor,
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
+                Container(
+                  height: _height/4,
+                  width: _width/3,
+                  //color: Colors.red,
+                  padding: EdgeInsets.all(10),
+                  child: Image.network("https://images-na.ssl-images-amazon.com/images/I/61lPLTJ4bCL._SY741_.jpg", fit: BoxFit.contain,),
+                ),
                 introSlider(),
-                SizedBox(height: 30),
+                //SizedBox(height: 10),
                 introButtons()
 
 
@@ -97,14 +104,16 @@ class _IntroSliderState extends State<IntroSlider> {
 
   Widget introSlider(){
     return Container(
-      height: _height/2,
-      margin: EdgeInsets.only(top: _height/8),
-     //color: Colors.red,
+      height: _height/2.5,
+      //margin: EdgeInsets.only(top: _height/8),
+     ///color: Colors.red,
       child: prefix0.IntroSlider(
         slides: this.slides,
         colorDot: Styles.taiaGreen,
         colorActiveDot: Colors.black,
-        isScrollable: true,
+       isShowPrevBtn: false,
+       isShowSkipBtn: false,
+       // isScrollable: t,
           sizeDot: 13.0,
       ),
      /* child: CarouselSlider(
@@ -161,17 +170,23 @@ class _IntroSliderState extends State<IntroSlider> {
         ),*/
         CustomButton(
           onTap: (){
-            Navigator.of(context).pushReplacementNamed(Constant.REGISTER);
+            Navigator.of(context).pushNamed(Constant.REGISTER);
           },
           text: "Registrieren",
           isDelete: false,
         ),
         SizedBox( height: 30,),
-        InkWell(
-            onTap: (){
-              Navigator.of(context).pushNamed(Constant.LOGIN);
-            },
-          child: Text("Einloggen", style: TextStyle(color: Styles.taiaGreen, fontSize: 20),),
+        SizedBox(
+          width: _width,
+          child: RaisedButton(
+              onPressed: (){
+                Navigator.of(context).pushNamed(Constant.LOGIN);
+              },
+            padding: EdgeInsets.all(15),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)),side: BorderSide(color: Styles.taiaGreen)),
+            color: Colors.white,
+            child: Text("Einloggen", style: TextStyle(color: Styles.taiaGreen, fontSize: 20),),
+          ),
         ),
       ],
     );

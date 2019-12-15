@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_taia_care/src/constants/constants.dart';
 import 'package:flutter_taia_care/src/model/doctor_appointments_model.dart';
 import 'package:flutter_taia_care/src/model/task_model.dart';
 import 'package:flutter_taia_care/src/resources/styles.dart';
@@ -13,14 +14,14 @@ class DoctorAppointments extends StatefulWidget {
 class _DoctorAppointmentsState extends State<DoctorAppointments> {
   double _width;
   double _height;
-  List<DoctorAppointmentsModel> list = List();
+  List<DoctorModel> list = List();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     list =[
-      DoctorAppointmentsModel(doctorName: "Dr.Strange", time: "19.10.2019 8:00 Uhr", isNotification: false),
+      DoctorModel(doctorName: "Dr.Strange", time: "19.10.2019 8:00 Uhr", isNotification: false),
     ];
 
   }
@@ -40,7 +41,7 @@ class _DoctorAppointmentsState extends State<DoctorAppointments> {
             listChats(),
             CustomButton(text: "ARZTTERMIN",
               onTap: () {
-
+                Navigator.of(context).pushNamed(Constant.SETDOCTORAPPOINTMENTS);
               },
               isDelete: false,
               icon: Icons.add,
@@ -58,15 +59,7 @@ class _DoctorAppointmentsState extends State<DoctorAppointments> {
           itemBuilder: (_,index){
             return InkWell(
               onTap: (){
-                if(index==0){
-                  print("0");
-                }else if(index==1){
-                  print("1");
-
-                } else if(index==2){
-                  print("2");
-
-                }
+                Navigator.of(context).pushNamed(Constant.DOCTORAPPOINTMENTSDETAILS, arguments: DoctorModel(doctorName: list[index].doctorName,time: list[index].time) );
               },
               child: Container(
                 height: _height/8,
