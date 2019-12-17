@@ -51,6 +51,13 @@
             </list>
           </value>
         </entry>
+        <entry key="decimal">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/decimal-0.3.5/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="firebase_auth">
           <value>
             <list>
@@ -69,6 +76,13 @@
           <value>
             <list>
               <option value="$PROJECT_DIR$/../../flutter_stable/flutter/packages/flutter/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="flutter_charts">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_charts-0.1.10/lib" />
             </list>
           </value>
         </entry>
@@ -205,6 +219,13 @@
             </list>
           </value>
         </entry>
+        <entry key="rational">
+          <value>
+            <list>
+              <option value="$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/rational-0.3.6/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="shared_preferences">
           <value>
             <list>
@@ -292,8 +313,10 @@
       <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.14.11/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/convert-2.1.1/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-0.1.2/lib" />
+      <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/decimal-0.3.5/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-0.14.0+9/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-0.4.0+9/lib" />
+      <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_charts-0.1.10/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_datetime_picker-1.2.8/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-0.8.4+3/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-0.15.0/lib" />
@@ -312,6 +335,7 @@
       <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/platform-2.2.1/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/provider-2.0.1+1/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-2.0.3/lib" />
+      <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/rational-0.3.6/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-0.5.4+5/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.5.5/lib" />
       <root url="file://$PROJECT_DIR$/../../flutter_stable/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.9.3/lib" />

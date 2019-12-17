@@ -53,7 +53,7 @@ class CustomDialogBox{
     );
   }
 
-  static void buildDialog( BuildContext context,String title,double _height, double _width,{List<ListModel> list}) {
+  static void buildDialog( BuildContext context,String title,double _height, double _width,{List<ListModel> list,dynamic model}) {
     showCupertinoModalPopup(
         context: context,
         //barrierDismissible: false,
@@ -67,7 +67,8 @@ class CustomDialogBox{
                     height: _height/2,
                     width: _width,
                     //color: Colors.red,
-                    child: Stack(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Column(
                           children: <Widget>[
@@ -97,7 +98,7 @@ class CustomDialogBox{
                                     return InkWell(
                                       onTap: (){
 //                                    model.setIsSelected(!list[index].status);
-                                       // model.setSelectedCategory(list[index].text);
+                                        model.setSelectedCategory(list[index].text);
 
                                         setState(() {
                                           list.forEach((element) => element.status = false);
@@ -138,26 +139,23 @@ class CustomDialogBox{
                           ],
                         ),
 
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Container(
-                                height: 1,
-                                width: _width,
-                                color: Colors.grey[100],
-                              ),
-                              SizedBox(
-                                width: _width,
-                                child: FlatButton(onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                    child: Text("AUSWÄHLEN", style: TextStyle(
-                                        color: Styles.taiaGreen),)),
-                              )
-                            ],
-                          ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Container(
+                              height: 1,
+                              width: _width,
+                              color: Colors.grey[100],
+                            ),
+                            SizedBox(
+                              width: _width,
+                              child: FlatButton(onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                                  child: Text("AUSWÄHLEN", style: TextStyle(
+                                      color: Styles.taiaGreen),)),
+                            )
+                          ],
                         )
                       ],
                     ),

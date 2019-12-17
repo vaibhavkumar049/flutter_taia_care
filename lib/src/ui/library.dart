@@ -4,6 +4,7 @@ import 'package:flutter_taia_care/src/model/list_model.dart';
 import 'package:flutter_taia_care/src/provider/library_viewmodel.dart';
 import 'package:flutter_taia_care/src/resources/styles.dart';
 import 'package:flutter_taia_care/src/ui/widgets/custom_alertdialog.dart';
+import 'package:provider/provider.dart';
 
 class Library extends StatefulWidget {
   @override
@@ -75,50 +76,57 @@ class _LibraryState extends State<Library> {
     _width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.green,
-      body:  SafeArea(
-        child: Container(
-          height: _height,
-          width: _width,
-          color: Styles.whiteColor,
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 100,
+      body:  ChangeNotifierProvider<LibraryViewModel>(
+        builder: (context)=>LibraryViewModel(),
+        child: Consumer<LibraryViewModel>(
+          builder: (_,model,__){
+            return SafeArea(
+              child: Container(
+                height: _height,
                 width: _width,
-                padding: EdgeInsets.all(10),
-                color: Styles.taiaGreen,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Kategorie", style: TextStyle(color: Styles.greyTextColor),),
-                       InkWell(
-                         onTap: (){
-                           print("is Select Category before dialog: ${model.selectedCategory}");
-                         CustomDialogBox.buildDialog( context,"Kategorie auswählen",_height, _width, list: list);
-                           print("is Select Category after  dialog: ${model.selectedCategory}");
-                          //CustomDialog( _height, _width, model,list);
-                         },
-                         child: Row(
-                           children: <Widget>[
-                             Text(model.selectedCategory!=null && model.selectedCategory.trim().length>0? model.selectedCategory: "Alles anzeigen"),
-                             Icon(Icons.arrow_drop_down)
-                           ],
-                         ),
-                       )
-                      ],
+                color: Styles.whiteColor,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      height: 100,
+                      width: _width,
+                      padding: EdgeInsets.all(10),
+                      color: Styles.taiaGreen,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10))
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text("Kategorie", style: TextStyle(color: Styles.greyTextColor),),
+                              InkWell(
+                                onTap: (){
+                                  print("is Select Category before dialog: ${model.selectedCategory}");
+                                  CustomDialogBox.buildDialog( context,"Kategorie auswählen",_height, _width, list: list, model: model);
+                                  print("is Select Category after  dialog: ${model.selectedCategory}");
+                                  //CustomDialog( _height, _width, model,list);
+                                },
+                                child: Row(
+                                  children: <Widget>[
+                                    Text(model.selectedCategory!=null && model.selectedCategory.trim().length>0? model.selectedCategory: "Alles anzeigen"),
+                                    Icon(Icons.arrow_drop_down)
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    listChats()
+                  ],
                 ),
               ),
-              listChats()
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
@@ -189,11 +197,6 @@ class CustomDialog extends StatefulWidget {
 }
 
 class _CustomDialogState extends State<CustomDialog> {
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
