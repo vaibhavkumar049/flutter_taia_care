@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_taia_care/src/model/base_model.dart';
 
 class RegisterViewModel extends BaseModel {
@@ -10,13 +13,9 @@ class RegisterViewModel extends BaseModel {
   bool _checkbox4 = false;
   bool _checkbox5 = false;
   bool _checkbox6 = false;
-
-  bool get checkbox6 => _checkbox6;
-
-  setCheckbox6(bool value) {
-    _checkbox6 = value;
-    notifyListeners();
-  }
+  bool _radioButton1 = false;
+  bool _radioButton2 = false;
+  bool _radioButton3 = false;
 
   bool _firstPageValidation=false;
   bool _secondPageValidation = false;
@@ -24,8 +23,33 @@ class RegisterViewModel extends BaseModel {
   bool _fourthPagevalidation= false;
   bool _fifthPageValidation = false;
   bool _sixthPageValidation= false;
+  String _date;
+
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passController = TextEditingController();
+  TextEditingController _codeController = TextEditingController();
 
 
+  TextEditingController get emailController => _emailController;
+
+  setEmailController(TextEditingController value) {
+    _emailController = value;
+    notifyListeners();
+  }
+
+  TextEditingController get passController => _passController;
+
+  setPassController(TextEditingController value) {
+    _passController = value;
+    notifyListeners();
+  }
+
+  TextEditingController get codeController => _codeController;
+
+  setCodeController(TextEditingController value) {
+    _codeController = value;
+    notifyListeners();
+  }
 
   bool get firstPageValidation => _firstPageValidation;
 
@@ -70,8 +94,6 @@ class RegisterViewModel extends BaseModel {
     notifyListeners();
   }
 
-  String _date;
-
 
   String get date => _date;
 
@@ -79,10 +101,6 @@ class RegisterViewModel extends BaseModel {
     _date = value;
     notifyListeners();
   }
-
-  bool _radioButton1 = false;
-  bool _radioButton2 = false;
-  bool _radioButton3 = false;
 
 
   bool get radioButton1 => _radioButton1;
@@ -163,6 +181,101 @@ class RegisterViewModel extends BaseModel {
     _checkbox5 = value;
     notifyListeners();
   }
+
+  bool get checkbox6 => _checkbox6;
+
+  setCheckbox6(bool value) {
+    _checkbox6 = value;
+    notifyListeners();
+  }
+
+
+  void registerUser() async {
+    try {
+      FirebaseUser user;
+      FirebaseAuth auth;
+      await auth.createUserWithEmailAndPassword(
+          email: emailController.text, password: passController.text);
+      UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
+      //  userUpdateInfo.displayName = _displayName;
+      user.updateProfile(userUpdateInfo).then((onValue) {
+        // Navigator.of(context).pushReplacementNamed('/home');
+        Firestore.instance.collection('users').document().setData(
+            {'email': emailController.text}).then((
+            onValue) {
+          state = ViewState.Idle;
+        });
+      });
+    } catch (error) {
+      switch (error.code) {
+        case "ERROR_EMAIL_ALREADY_IN_USE":
+          {
+            state = ViewState.Idle;
+            /*   _sheetController.setState(() {
+              errorMsg = "This email is already in use.";
+              _loading = false;
+            });*/
+            /*  showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: Container(
+                      child: Text(errorMsg),
+                    ),
+                  );
+                });*/
+          }
+          break;
+        case "ERROR_WEAK_PASSWORD":
+          {
+            /*   _sheetController.setState(() {
+              errorMsg = "The password must be 6 characters long or more.";
+              _loading = false;
+            });*/
+            state = ViewState.Idle;
+            /*  showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content: Container(
+                      child: Text(errorMsg),
+                    ),
+                  );
+                });*/
+          }
+          break;
+        default:
+          {
+            /*  _sheetController.setState(() {
+              errorMsg = "";
+            });*/
+          }
+      }
+    }
+  }
+
+
+    clearModel(){
+    setAutoValidate(false);
+    setPageCount(1);
+    setRadioButton3(false);
+    setRadioButton2(false);
+    setRadioButton1(false);
+    setCheckbox6(false);
+    setCheckbox5(false);
+    setCheckbox4(false);
+    setCheckbox3(false);
+    setCheckbox2(false);
+    setCheckbox1(false);
+    setSixthPageValidation(false);
+    setFifthPageValidation(false);
+    setFourthPagevalidation(false);
+    setThirdPageValidation(false);
+    setSecondPageValidation(false);
+    setFirstPageValidation(false);
+    setDate(null);
+    setIndicatorValue(0.1);
+    }
 
 
 

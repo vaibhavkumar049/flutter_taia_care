@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_taia_care/src/constants/constants.dart';
+import 'package:flutter_taia_care/src/model/base_model.dart';
 import 'package:flutter_taia_care/src/model/list_model.dart';
 import 'package:flutter_taia_care/src/provider/register_viewmodel.dart';
 import 'package:flutter_taia_care/src/resources/styles.dart';
@@ -26,9 +29,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
   GlobalKey<FormState> _userKey = GlobalKey();
   PageController _pageController = PageController();
   List<ListModel> _checkList= List();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
-  TextEditingController codeController = TextEditingController();
+
 
 
 
@@ -102,6 +103,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                             model.setPageCount(--pageCount);
                             model.setIndicatorValue(indicatorValue=indicatorValue-0.2);
                           } else {
+                            model.clearModel();
                             Navigator.of(context).pop();
                           }
                             }),
@@ -192,6 +194,8 @@ class _RegisterAccountState extends State<RegisterAccount> {
                     }
                   } else if(model.pageCount ==6){
                     if(model.date !=null){
+                      model.state = ViewState.Busy;
+                      model.registerUser();
                       Navigator.of(context).pushReplacementNamed(Constant.DASHBOARD, arguments: 0);
                     } else {
                       //CustomDialogBox.showAlertDialog(context, "Alert!", "Bitte wähle dein Geburtsdatum aus", width: _width);
@@ -232,7 +236,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
         Text("Konto erstellen", style: TextStyle(fontSize:  _width/12, fontWeight: FontWeight.bold),),
         SizedBox( height: 30,),
         TextFormField(
-          controller: emailController,
+          controller: model.emailController,
           autovalidate: model.autoValidate,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
@@ -243,7 +247,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
         ),
         SizedBox( height: 30,),
         TextFormField(
-          controller: passController,
+          controller: model.passController,
           validator: validator.validatePassword,
           autovalidate: model.autoValidate,
           obscureText: visibility?false:true,
@@ -497,7 +501,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   TextField(
-                    controller: codeController,
+                    controller: model.codeController,
                     decoration: InputDecoration(
                       hintText: "Einladungscode",
                       hintStyle: TextStyle(fontWeight: FontWeight.bold)
@@ -563,7 +567,7 @@ class _RegisterAccountState extends State<RegisterAccount> {
           onTap: (){
               model.setCheckbox5(!model.checkbox5);
               model.setCheckbox4(false);
-              codeController.clear();
+              model.codeController.clear();
 
           },
           child: Card(
@@ -619,11 +623,11 @@ class _RegisterAccountState extends State<RegisterAccount> {
   String _validateThird(RegisterViewModel model) {
     if(model.checkbox5){
       return null;
-    } else if (codeController.text.length>0 && !model.checkbox4){
+    } else if (model.codeController.text.length>0 && !model.checkbox4){
       return "Bitte bestätige, dass du zustimmst Daten mit deinem Arzt zu teilen";
-    } else if(codeController.text.length<1 && model.checkbox4){
+    } else if(model.codeController.text.length<1 && model.checkbox4){
       return "Bitte gebe einen gültigen Einladungscode ein";
-    } else if(codeController.text.length>0 && model.checkbox4){
+    } else if(model.codeController.text.length>0 && model.checkbox4){
       return null;
     }
     return "Bitte verbinde dich mit deinem Arzt. Wenn du keinen Einladungscode bekommen hast, dann markiere das Feld “Ich habe keinen Einladungscode";
@@ -841,6 +845,8 @@ class _RegisterAccountState extends State<RegisterAccount> {
     }
     return null;
   }
+
+
 
 
 

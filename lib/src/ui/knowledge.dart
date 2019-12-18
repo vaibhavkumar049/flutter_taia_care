@@ -70,7 +70,7 @@ class _KnowledgeState extends State<Knowledge> {
             )
           ),
         ),
-        SizedBox(height: 20,),
+      /*  SizedBox(height: 20,),
         Expanded(
           child: Card(
             shape: RoundedRectangleBorder(
@@ -88,7 +88,7 @@ class _KnowledgeState extends State<Knowledge> {
               ),
             ),
           ),
-        )
+        )*/
       ],
     );
   }
