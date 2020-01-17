@@ -3,6 +3,7 @@
 
 import 'package:flutter_taia_care/src/model/base_model.dart';
 import 'package:flutter_taia_care/src/provider/dashboard_viewmodel.dart';
+import 'package:flutter_taia_care/src/provider/login_provider.dart';
 import 'package:flutter_taia_care/src/provider/register_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 
@@ -12,4 +13,5 @@ void setupLocator() {
   locator.registerLazySingleton(() => RegisterViewModel());
   locator.registerFactory(() => BaseModel());
   locator.registerLazySingleton(() => DashboardProvider());
+  locator.registerLazySingleton(() => LoginProvider());
 }

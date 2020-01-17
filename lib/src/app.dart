@@ -28,6 +28,7 @@ import 'package:flutter_taia_care/src/ui/send_feedback.dart';
 import 'package:flutter_taia_care/src/ui/set_doctor_appointments.dart';
 import 'package:flutter_taia_care/src/ui/settings.dart';
 import 'package:flutter_taia_care/src/ui/share_report.dart';
+import 'package:flutter_taia_care/src/ui/taia_chat.dart';
 import 'package:flutter_taia_care/src/ui/taia_recommendation.dart';
 import 'package:flutter_taia_care/src/ui/treatment_plan.dart';
 import 'package:flutter_taia_care/src/ui/user_account.dart';
@@ -158,9 +159,11 @@ class _MyAppState extends State<MyApp> {
           Constant.ADDMEDICATION: (BuildContext context) => AddMedication(),
           Constant.TREATMENTPLAN: (BuildContext context) => TreatmentPlan(),
           Constant.TAIARECOMMENDATION: (BuildContext context) => TaiaRecommendation(),
+          Constant.TAIACHAT: (BuildContext context) => TaiaChat(),
 
         },
         initialRoute: Constant.INTRO,
+        //initialRoute: Constant.DASHBOARD,
       )
 
     );

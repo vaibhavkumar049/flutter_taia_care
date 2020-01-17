@@ -1,34 +1,87 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_taia_care/src/constants/constants.dart';
 import 'package:flutter_taia_care/src/model/base_model.dart';
+import 'package:flutter_taia_care/src/utils/encrypt.dart';
 
 class RegisterViewModel extends BaseModel {
-  int _pageCount=1;
-  double _indicatorValue =0.1;
-  bool _autoValidate= false;
+  int _pageCount = 1;
+  double _indicatorValue = 0.1;
+  bool _autoValidate = false;
+
+  bool _isFirstTraversed=false;
+  bool _isSecondTraversed=false;
+  bool _isThirdTraversed=false;
+  bool _isFourthTraversed=false;
+  bool _isFifthTraversed=false;
+
   bool _checkbox1 = false;
   bool _checkbox2 = false;
   bool _checkbox3 = false;
   bool _checkbox4 = false;
   bool _checkbox5 = false;
   bool _checkbox6 = false;
+
   bool _radioButton1 = false;
   bool _radioButton2 = false;
   bool _radioButton3 = false;
 
-  bool _firstPageValidation=false;
+  FocusNode _emailFocus = FocusNode();
+  FocusNode _codeFocus = FocusNode();
+
+  bool _firstPageValidation = false;
   bool _secondPageValidation = false;
   bool _thirdPageValidation = false;
-  bool _fourthPagevalidation= false;
+  bool _fourthPagevalidation = false;
   bool _fifthPageValidation = false;
-  bool _sixthPageValidation= false;
+  bool _sixthPageValidation = false;
+
+  bool _isAnderes = false;
+
+  bool get isAnderes => _isAnderes;
+
+  setIsAnderes(bool value) {
+    _isAnderes = value;
+    notifyListeners();
+  }
+
   String _date;
+  String _gender;
+  List<String> _ethnicityList = List();
+
+  List<String> get ethnicityList => _ethnicityList;
+
+
+  FocusNode get emailFocus => _emailFocus;
+
+  setEmailFocus(FocusNode value) {
+    _emailFocus = value;
+    notifyListeners();
+  }
+
+  FocusNode get codeFocus => _codeFocus;
+
+  setCodeFocus(FocusNode value) {
+    _codeFocus = value;
+    notifyListeners();
+  }
+
+  setEthnicityList(List<String> value) {
+    _ethnicityList = value;
+    notifyListeners();
+  }
+
+  String get gender => _gender;
+
+  setGender(String value) {
+    _gender = value;
+    notifyListeners();
+  }
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
   TextEditingController _codeController = TextEditingController();
-
 
   TextEditingController get emailController => _emailController;
 
@@ -65,7 +118,6 @@ class RegisterViewModel extends BaseModel {
     notifyListeners();
   }
 
-
   bool get thirdPageValidation => _thirdPageValidation;
 
   setThirdPageValidation(bool value) {
@@ -94,14 +146,12 @@ class RegisterViewModel extends BaseModel {
     notifyListeners();
   }
 
-
   String get date => _date;
 
   setDate(String value) {
     _date = value;
     notifyListeners();
   }
-
 
   bool get radioButton1 => _radioButton1;
 
@@ -145,14 +195,12 @@ class RegisterViewModel extends BaseModel {
     notifyListeners();
   }
 
-
   bool get checkbox1 => _checkbox1;
 
   setCheckbox1(bool value) {
     _checkbox1 = value;
     notifyListeners();
   }
-
 
   bool get checkbox2 => _checkbox2;
 
@@ -189,33 +237,47 @@ class RegisterViewModel extends BaseModel {
     notifyListeners();
   }
 
-
-  void registerUser() async {
+  void registerUser(BuildContext context) async {
+    print("Registering user");
     try {
-      FirebaseUser user;
-      FirebaseAuth auth;
-      await auth.createUserWithEmailAndPassword(
-          email: emailController.text, password: passController.text);
-      UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
+      // FirebaseUser user;
+      FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.text, password: passController.text)
+          .then((currentUser) => Firestore.instance
+                  .collection('patient')
+                  .document(currentUser.user.uid)
+                  .setData({
+                'uid': currentUser.user.uid,
+                'email': Encrypt.encryptEmail(emailController.text),
+               //  'password': Encrypt.encryptPassword(passController.text),
+               'connection_code'
+                    : Encrypt.encryptConnectionCode(codeController.text),
+                'gender': Encrypt.encryptGender(gender),
+                'ethnicity': ethnicityList.toList(),
+                'date_of_birth': date
+              }).then((onValue) {
+                state = ViewState.Idle;
+                print('data entered in the firebase');
+                Navigator.of(context)
+                    .pushReplacementNamed(Constant.DASHBOARD, arguments: 0);
+              }));
+      //UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
       //  userUpdateInfo.displayName = _displayName;
-      user.updateProfile(userUpdateInfo).then((onValue) {
-        // Navigator.of(context).pushReplacementNamed('/home');
-        Firestore.instance.collection('users').document().setData(
-            {'email': emailController.text}).then((
-            onValue) {
-          state = ViewState.Idle;
-        });
-      });
+
+      // Navigator.of(context).pushReplacementNamed('/home');
+
     } catch (error) {
-      switch (error.code) {
+      print("Error is: $error");
+/*      switch (error.code) {
         case "ERROR_EMAIL_ALREADY_IN_USE":
           {
             state = ViewState.Idle;
-            /*   _sheetController.setState(() {
+            */ /*   _sheetController.setState(() {
               errorMsg = "This email is already in use.";
               _loading = false;
-            });*/
-            /*  showDialog(
+            });*/ /*
+            */ /*  showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
@@ -223,17 +285,17 @@ class RegisterViewModel extends BaseModel {
                       child: Text(errorMsg),
                     ),
                   );
-                });*/
+                });*/ /*
           }
           break;
         case "ERROR_WEAK_PASSWORD":
           {
-            /*   _sheetController.setState(() {
+            */ /*   _sheetController.setState(() {
               errorMsg = "The password must be 6 characters long or more.";
               _loading = false;
-            });*/
+            });*/ /*
             state = ViewState.Idle;
-            /*  showDialog(
+            */ /*  showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
@@ -241,21 +303,22 @@ class RegisterViewModel extends BaseModel {
                       child: Text(errorMsg),
                     ),
                   );
-                });*/
+                });*/ /*
           }
           break;
         default:
           {
-            /*  _sheetController.setState(() {
+            */ /*  _sheetController.setState(() {
               errorMsg = "";
-            });*/
+            });*/ /*
           }
-      }
+      }*/
     }
   }
 
-
-    clearModel(){
+  clearModel() {
+    _emailController = TextEditingController();
+    _passController = TextEditingController();
     setAutoValidate(false);
     setPageCount(1);
     setRadioButton3(false);
@@ -275,9 +338,40 @@ class RegisterViewModel extends BaseModel {
     setFirstPageValidation(false);
     setDate(null);
     setIndicatorValue(0.1);
-    }
+  }
 
+  bool get isFirstTraversed => _isFirstTraversed;
 
+  setIsFirstTraversed(bool value) {
+    _isFirstTraversed = value;
+    notifyListeners();
+  }
 
+  bool get isSecondTraversed => _isSecondTraversed;
 
+  setIsSecondTraversed(bool value) {
+    _isSecondTraversed = value;
+    notifyListeners();
+  }
+
+  bool get isThirdTraversed => _isThirdTraversed;
+
+  setIsThirdTraversed(bool value) {
+    _isThirdTraversed = value;
+    notifyListeners();
+  }
+
+  bool get isFourthTraversed => _isFourthTraversed;
+
+  setIsFourthTraversed(bool value) {
+    _isFourthTraversed = value;
+    notifyListeners();
+  }
+
+  bool get isFifthTraversed => _isFifthTraversed;
+
+  setIsFifthTraversed(bool value) {
+    _isFifthTraversed = value;
+    notifyListeners();
+  }
 }

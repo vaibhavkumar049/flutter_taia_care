@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_taia_care/src/resources/styles.dart';
@@ -24,26 +26,34 @@ class _GeneralInformationState extends State<GeneralInformation> {
     profileDate = "19.01.1990";
     gender = "Weiblich";
   }
+
   @override
   Widget build(BuildContext context) {
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: CustomAppBar.buildAppBar(context: context,title: "Allgemeine Angaben"),
+      appBar: CustomAppBar.buildAppBar(
+          context: context, title: "Allgemeine Angaben"),
       body: SafeArea(
           child: Container(
-            height: _height,
-            width: _width,
-            padding: EdgeInsets.all(15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                _topPart(),
-               CustomButton(text: "SPEICHERN",onTap: (){Navigator.of(context).pop();},isDelete: false,)
-              ],
-            ),
-          )
-      ),
+        height: _height,
+        width: _width,
+        padding: EdgeInsets.all(15),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            _topPart(),
+            CustomButton(
+              text: "SPEICHERN",
+              onTap: () {
+                _updateProfile()();
+                //Navigator.of(context).pop();
+              },
+              isDelete: false,
+            )
+          ],
+        ),
+      )),
     );
   }
 
@@ -55,48 +65,76 @@ class _GeneralInformationState extends State<GeneralInformation> {
           decoration: InputDecoration(
             labelText: "Name",
           ),
-        ) ,
-        SizedBox(height: 20,),
+        ),
+        SizedBox(
+          height: 20,
+        ),
         InkWell(
-          onTap: (){
+          onTap: () {
             DatePicker.showDatePicker(context,
                 showTitleActions: true,
                 minTime: DateTime(2000, 3, 5),
-                maxTime: DateTime(2030, 6, 7),
-                onChanged: (date) {
-                  print('change $date');
-                }, onConfirm: (date) {
-                  print('confirm $date');
-                  setState(() {
-                    profileDate=date.toIso8601String();
-                  });
-
-                }, currentTime: DateTime.now(), locale: LocaleType.de);
+                maxTime: DateTime(2030, 6, 7), onChanged: (date) {
+              print('change $date');
+            }, onConfirm: (date) {
+              print('confirm $date');
+              setState(() {
+                profileDate = date.toIso8601String();
+              });
+            }, currentTime: DateTime.now(), locale: LocaleType.de);
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Geburtsdatum",style: TextStyle(color: Styles.greyTextColor),),
-              SizedBox(height: 5,),
-              Text(profileDate, style: TextStyle(fontSize: _width/20),),
-              SizedBox(height: 5,),
-              Container(width: _width,height: 1,color: Colors.black,)
+              Text(
+                "Geburtsdatum",
+                style: TextStyle(color: Styles.greyTextColor),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                profileDate,
+                style: TextStyle(fontSize: _width / 20),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                width: _width,
+                height: 1,
+                color: Colors.black,
+              )
             ],
           ),
         ),
-        SizedBox(height: 20,),
+        SizedBox(
+          height: 20,
+        ),
         InkWell(
-          onTap: (){
-
-          },
+          onTap: () {},
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Geschlecht",style: TextStyle(color: Styles.greyTextColor),),
-              SizedBox(height: 5,),
-              Text(gender, style: TextStyle(fontSize: _width/20),),
-              SizedBox(height: 5,),
-              Container(width: _width,height: 1,color: Colors.black,)
+              Text(
+                "Geschlecht",
+                style: TextStyle(color: Styles.greyTextColor),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                gender,
+                style: TextStyle(fontSize: _width / 20),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                width: _width,
+                height: 1,
+                color: Colors.black,
+              )
             ],
           ),
         )
@@ -104,4 +142,14 @@ class _GeneralInformationState extends State<GeneralInformation> {
     );
   }
 
+  _updateProfile(){
+    FirebaseUser user;
+    Firestore.instance
+        .collection('patients')
+        .document(user.uid).updateData({'name': _nameController.text}).then((result){
+          print("Profile updated");
+    }).catchError((e){
+      print("Error is : $e");
+    });
+  }
 }

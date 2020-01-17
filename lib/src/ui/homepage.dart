@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_taia_care/src/constants/constants.dart';
 import 'package:flutter_taia_care/src/model/task_model.dart';
 import 'package:flutter_taia_care/src/resources/styles.dart';
 
@@ -18,8 +19,8 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
     tasks= [
-      TaskModel(title: "Methotrexat 15mg", subtitle: "18:00 Uhr"),
-      TaskModel(title: "Methotrexat 15mg", subtitle: "18:00 Uhr"),
+      TaskModel(title: "Methotrexat 15mg", subtitle: "18:00 Uhr", status: false),
+      TaskModel(title: "Methotrexat 15mg", subtitle: "18:00 Uhr",status: false),
     ];
   }
 
@@ -47,7 +48,9 @@ class _HomePageState extends State<HomePage> {
     return Container(
       height: _height/2,
       width: _width,
-      color: Styles.taiaGreen,
+      decoration: BoxDecoration(
+        gradient: Styles.appBackGradient
+      ),
       alignment: Alignment.center,
       padding: EdgeInsets.all(10),
       child: Row(
@@ -61,7 +64,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.all(10),
             child: Image.network("https://images-na.ssl-images-amazon.com/images/I/61lPLTJ4bCL._SY741_.jpg", fit: BoxFit.contain,),
           ),
-          SizedBox(width: 10,),
+          SizedBox(width: 50,),
           Flexible(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -71,12 +74,15 @@ class _HomePageState extends State<HomePage> {
                 Text("Ernährung", style: TextStyle(color: Styles.whiteColor, fontSize: _width/15),),*/
                 SizedBox(height: 10,),
                 SizedBox(
-                  width: _width,
+                  width: _width/2,
                   child: RaisedButton(
-                    onPressed: (){},
+                    padding: EdgeInsets.all(10),
+                    onPressed: (){
+                      Navigator.of(context).pushNamed(Constant.TAIACHAT);
+                    },
                     color: Styles.whiteColor,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: Text("Hallo Taia", style: TextStyle(fontSize: _width/20, color: Styles.taiaGreen),),
+                    child: Text("Hallo Taia", style: TextStyle(fontSize: _width/15, color: Styles.taiaGreen),),
                   ),
                 )
               ],
@@ -97,13 +103,14 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (_,index){
                 print("task length:${tasks.length}");
                   return tasks.length ==0? Card(child: Text(""),)
-                      :tasks.length == index?  Row(
+                      :tasks.length == index?  Padding(padding: EdgeInsets.all(8), child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Flexible(
                         child: SizedBox(
                           width: _width,
                           child: RaisedButton(
+                            padding: EdgeInsets.all(15),
                             onPressed: (){},
                             color: Styles.whiteColor,
                             child: Row(
@@ -121,6 +128,7 @@ class _HomePageState extends State<HomePage> {
                         child: SizedBox(
                           width: _width,
                           child: RaisedButton(
+                            padding: EdgeInsets.all(15),
                             onPressed: (){},
                             color: Styles.whiteColor,
                             child: Row(
@@ -134,16 +142,18 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ],
-                  )
+                  ),)
                       :InkWell(
                     onTap: (){
                       setState(() {
-
+                          tasks[index].status = !tasks[index].status;
                       });
                     },
                     child: Card(
+                      color: tasks[index].status?Styles.taiaGreen:Styles.chatBubbleGrey,
+                      elevation: 3,
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(15),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -151,25 +161,19 @@ class _HomePageState extends State<HomePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(tasks[index].title, style: TextStyle(fontWeight: FontWeight.bold),),
-                                Text(tasks[index].subtitle)
+                                SizedBox(height: 5,),
+                                Text("Eingenommen ${tasks[index].subtitle}")
                               ],
                             ),
                             Container(
-                              width: _width / 20,
-                              height: _height / 30,
+                              width: _width / 10,
+                              height: _height / 20,
                               decoration: BoxDecoration(
-                                  color:
-                                  //model.radioButton3? Styles.taiaGreen :
-                                  Styles
-                                      .whiteColor,
-                                  border: Border.all(color:
-                                  //!model.radioButton3 ?
-                                  Colors
-                                      .black
-                                      //: Styles.taiaGreen
-                                  ),
+                                  color: Styles.whiteColor,
+                                  border: Border.all(color: Styles.chatBubbleGrey),
                                   shape: BoxShape.circle
                               ),
+                              child: tasks[index].status?Icon(Icons.check):SizedBox(),
                             )
                           ],
                         ),

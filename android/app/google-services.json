@@ -1,0 +1,85 @@
+{
+  "project_info": {
+    "project_number": "259306568276",
+    "firebase_url": "https://taia-fodlbi.firebaseio.com",
+    "project_id": "taia-fodlbi",
+    "storage_bucket": "taia-fodlbi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259306568276:android:8af8d9120c95bf2f064bc1",
+        "android_client_info": {
+          "package_name": "com.example.chatbot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259306568276-rgieq78ts31ldtvlsnve8seof5np4g0m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chatbot",
+            "certificate_hash": "68781c84e965953a0dc0eb10d222ec841262ebb7"
+          }
+        },
+        {
+          "client_id": "259306568276-9e8cgj3c4q1ugou7445u88b4muhp741g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chatbot",
+            "certificate_hash": "96007ec61b5e7786cfae7416195df24a75f971a0"
+          }
+        },
+        {
+          "client_id": "259306568276-are8ic2mn7nkab4pmv4hg5b8aa83urfc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-x8MhFI3g3Wn3hKW8JgyhG_h1PPlPtLI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259306568276-are8ic2mn7nkab4pmv4hg5b8aa83urfc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259306568276:android:fa0b0a6afd22a3d7064bc1",
+        "android_client_info": {
+          "package_name": "com.taiaCare.flutter_taia_care"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259306568276-are8ic2mn7nkab4pmv4hg5b8aa83urfc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-x8MhFI3g3Wn3hKW8JgyhG_h1PPlPtLI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259306568276-are8ic2mn7nkab4pmv4hg5b8aa83urfc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

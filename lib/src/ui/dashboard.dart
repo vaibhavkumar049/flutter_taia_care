@@ -6,6 +6,7 @@ import 'package:flutter_taia_care/src/ui/knowledge.dart';
 import 'package:flutter_taia_care/src/ui/library.dart';
 import 'package:flutter_taia_care/src/ui/more.dart';
 import 'package:flutter_taia_care/src/utils/base_view.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -284,82 +285,85 @@ class _DashboardState extends State<Dashboard> {
               key: _scaffoldKey,
               body: bottomNav[model.currentTab],
               backgroundColor: Colors.white,
-              bottomNavigationBar: !_isVisible
-                  ? SizedBox()
-                  : BottomNavigationBar(
-                  selectedItemColor: Styles.taiaGreen,
-                  onTap: (index) {
-                 if (index == 0) {
-                      model.currentTab = 0;
-                      model.bottomBarStateManagement.clear();
-                    }
-                 else {
-                        if (model.currentTab != index) {
-                          model.currentTab = index;
-                          model.bottomBarStateManagement.add(index);
-                        }
+              bottomNavigationBar: SizedBox(
+                height: _height/10,
+                child: !_isVisible
+                    ? SizedBox()
+                    : BottomNavigationBar(
+                    selectedItemColor: Styles.taiaGreen,
+                    onTap: (index) {
+                   if (index == 0) {
+                        model.currentTab = 0;
+                        model.bottomBarStateManagement.clear();
+                      }
+                   else {
+                          if (model.currentTab != index) {
+                            model.currentTab = index;
+                            model.bottomBarStateManagement.add(index);
+                          }
 
-                    }
-                    print(model.bottomBarStateManagement);
-                  },
-                  showUnselectedLabels: true,
-                  currentIndex: model.currentTab,
-                  //fixedColor: Colors.blue,
-                  type: BottomNavigationBarType.fixed,
-                  items: <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                      icon: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: model.currentTab == 0?Styles.taiaGreen:Colors.grey
+                      }
+                      print(model.bottomBarStateManagement);
+                    },
+                    showUnselectedLabels: true,
+                    currentIndex: model.currentTab,
+                    //fixedColor: Colors.blue,
+                    type: BottomNavigationBarType.fixed,
+                    items: <BottomNavigationBarItem>[
+                      BottomNavigationBarItem(
+                        icon: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: model.currentTab == 0?Styles.taiaGreen:Colors.grey
+                          ),
+                          padding: EdgeInsets.all(2),
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.white,
+                          ),
                         ),
-                        padding: EdgeInsets.all(2),
-                        child: Icon(
-                          Icons.person,
-                          color: Colors.white,
-                        ),
-                      ),
-                      title: Text(
-                        "Taia",
-                        style: TextStyle(
-                          fontSize: _width / 32,
-                        ),
-                      ),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.insert_chart,
-                      ),
-                      title: Text(
-                       "Erkenntnisse",
-                        style: TextStyle(
-                          fontSize: _width / 32,
+                        title: Text(
+                          "Taia",
+                          style: TextStyle(
+                            fontSize: _width / 32,
+                          ),
                         ),
                       ),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.book,
-                      ),
-                      title: Text(
-                       "Bibliothek",
-                        style: TextStyle(
-                          fontSize: _width / 32,
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          FontAwesomeIcons.chartBar,
+                        ),
+                        title: Text(
+                         "Erkenntnisse",
+                          style: TextStyle(
+                            fontSize: _width / 32,
+                          ),
                         ),
                       ),
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.more_horiz,
-                      ),
-                      title: Text(
-                        "Mehr",
-                        style: TextStyle(
-                          fontSize: _width / 32,
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          FontAwesomeIcons.book
+                        ),
+                        title: Text(
+                         "Bibliothek",
+                          style: TextStyle(
+                            fontSize: _width / 32,
+                          ),
                         ),
                       ),
-                    ),
-                  ]),
+                      BottomNavigationBarItem(
+                        icon: Icon(
+                          FontAwesomeIcons.ellipsisH
+                        ),
+                        title: Text(
+                          "Mehr",
+                          style: TextStyle(
+                            fontSize: _width / 32,
+                          ),
+                        ),
+                      ),
+                    ]),
+              ),
             ),
           );
         });

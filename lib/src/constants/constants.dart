@@ -27,6 +27,7 @@ class Constant {
   static const String ADDMEDICATION = "addmedication";
   static const String TREATMENTPLAN = "treatmentplan";
   static const String TAIARECOMMENDATION = "taiarecommendation";
+  static const String TAIACHAT = "taiachat";
 
 
   static const String ROBOTO = 'Roboto';

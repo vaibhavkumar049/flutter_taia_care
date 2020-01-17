@@ -21,7 +21,7 @@ class _TaiaRecommendationState extends State<TaiaRecommendation> {
     super.initState();
     chatList = [
       ListTileModel(icon: FontAwesomeIcons.prescriptionBottleAlt,title: "Medikamente", subtitle: null, isLocked: false, count: 3),
-      ListTileModel(icon: FontAwesomeIcons.heartbeat,title: "Komorbiditäten", subtitle:null, isLocked: false,count: 3 ),
+      ListTileModel(icon: FontAwesomeIcons.heartbeat,title: "Begleiterkrankungen", subtitle:null, isLocked: false,count: 3 ),
       ListTileModel(icon: FontAwesomeIcons.signal,title: "Krankheitsverlauf", subtitle:null, isLocked: false,count: 3 ),
       ListTileModel(icon: FontAwesomeIcons.brain,title: "Mentale Gesundheit", subtitle:null, isLocked: false,count: 3 ),
       ListTileModel(icon: FontAwesomeIcons.walking,title: "Bewegung", subtitle:null, isLocked: false,count: 3 ),
@@ -62,7 +62,7 @@ class _TaiaRecommendationState extends State<TaiaRecommendation> {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Icon(chatList[index].icon),
+                        Icon(chatList[index].icon, color:iconColor(index) ,),
                         SizedBox(width: 20,),
                         Flexible(
                           child: Text(chatList[index].title, style: TextStyle(fontSize: _width/25,)),
@@ -85,7 +85,7 @@ class _TaiaRecommendationState extends State<TaiaRecommendation> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Icon(Icons.arrow_forward_ios)
+                            Icon(Icons.arrow_forward_ios, color: Styles.lightGrey,)
                           ],
                         ),
                       ],
@@ -96,6 +96,24 @@ class _TaiaRecommendationState extends State<TaiaRecommendation> {
           );
         }
     );
+  }
+
+  Color iconColor(int index){
+    switch(index){
+      case 0:
+        return Styles.lightBlue;
+      case 1:
+        return Styles.lightCyan;
+      case 2:
+        return Styles.softViolet;
+      case 3:
+        return Styles.softPink;
+      case 4:
+        return Styles.lightRedIcon;
+      case 5:
+        return Styles.lightYellow;
+    }
+    return Styles.transparent;
   }
 
 }

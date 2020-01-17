@@ -12,6 +12,25 @@ abstract class Styles {
   static const Color boxesNarrowsGrey = Color.fromRGBO(227, 227, 227, 1);
 //rgb(255,91,91)
   static const Color taiaGreen = Color.fromRGBO(0, 212, 183, 1);
+  static const Color taiaGreenLight = Color.fromRGBO(7, 229, 169, 1);
+  static const Color lightGrey = Color.fromRGBO(192, 192, 192, 1);
+  static const Color veryLightGrey = Color.fromRGBO(250, 250, 250, 1);
+  //rgb(7,229,169)
+  //static const Color lightTaiaGreen = Color.fromRGBO(0, 212, 183, 1);
+  static const Color chatBubbleGrey = Color.fromRGBO(240, 240, 240, 1);
+
+  static const Color lightBlue = Color.fromRGBO(80, 167, 255, 1);
+  static const Color lightCyan = Color.fromRGBO(115, 230, 255, 1);
+  static const Color softViolet = Color.fromRGBO(198, 112, 232, 1);
+  static const Color softPink = Color.fromRGBO(254, 140, 199, 1);
+  static const Color lightRedIcon = Color.fromRGBO(255, 147, 123, 1);
+  static const Color lightYellow = Color.fromRGBO(255, 216, 92, 1);
+
+  static const LinearGradient appBackGradient = LinearGradient(
+      colors: [taiaGreen, taiaGreenLight],
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter);
+
 
 
   static const Color transparent = Colors.transparent;
@@ -19,40 +38,7 @@ abstract class Styles {
   static const Color textDarkColor = Color(0xFF343434);
   static const Color whiteColor = Colors.white;
 
-  static const Color redColor = Color(0xFFC82727);
-  static const Color textFieldGreyColor = Color(0xFFFFFFFF);
-  static const Color darkGreenColor = Color(0xFF00A056);
-  static const Color lightGreenColor = Color(0xFF96C160);
-  static const Color caseOutlineColor = Color(0xFF2E7D32);
 
-  static const Color darkTextIconColor = Color(0xFF95C160);
-  static const Color lightTextIconColor = Color(0xFFD7D8DA);
-  static const Color mediumTextIconColor = Color(0xFF9EA0A5);
 
-  static const Color lightTextColor = Color(0xFFD7D8DA);
-  static const Color mediumTextColor = mediumTextIconColor;
-  static const Color darkTextColor = textDarkColor;
 
-  static const Color dismissibleBackgroundColor = Color(0xFFF2f2f2);
-
-  static const LinearGradient appBackGradient = LinearGradient(
-      colors: [darkGreenColor, lightGreenColor],
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter);
-
-/*  //Strings
-  static const TextStyle boldMediumSizedWhiteTextStyle = TextStyle(
-      color: Styles.whiteColor, fontWeight: FontWeight.w500, fontSize: 16);
-  static const TextStyle smallGreenTextStyle = TextStyle(
-      fontWeight: FontWeight.w400,
-      fontFamily: "Roboto",
-      color: const Color(0xff228425),
-      fontStyle: FontStyle.normal,
-      fontSize: 12);
-  static const TextStyle smallMediumOkTextStyle =
-      TextStyle(color: Styles.whiteColor, fontSize: 12);
-  static const TextStyle caseItemNameTextStyle = TextStyle(
-      color: Styles.blackColor, fontSize: 20, fontWeight: FontWeight.bold);
-  static const TextStyle caseItemDateTextStyle = TextStyle(
-      color: Styles.blackColor, fontSize: 18, fontWeight: FontWeight.bold);*/
 }

@@ -78,24 +78,29 @@ class _IntroSliderState extends State<IntroSlider> {
           width: _width,
           padding: EdgeInsets.all(20),
          // color: Styles.whiteColor,
-          child: SingleChildScrollView(
-            child: Column(
-             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  height: _height/4,
-                  width: _width/3,
-                  //color: Colors.red,
-                  padding: EdgeInsets.all(10),
-                  child: Image.network("https://images-na.ssl-images-amazon.com/images/I/61lPLTJ4bCL._SY741_.jpg", fit: BoxFit.contain,),
-                ),
-                introSlider(),
-                //SizedBox(height: 10),
-                introButtons()
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Column(
+               // mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                    height: _height/4,
+                    width: _width/3,
+                   // color: Colors.red,
+                    padding: EdgeInsets.all(10),
+                    child: Image.network("https://images-na.ssl-images-amazon.com/images/I/61lPLTJ4bCL._SY741_.jpg", fit: BoxFit.contain,),
+                  ),
+                  introSlider(),
+                ],
+              ),
+
+              //SizedBox(height: 10),
+              introButtons()
 
 
-              ],
-            ),
+            ],
           ),
         ),
       ),
@@ -105,8 +110,8 @@ class _IntroSliderState extends State<IntroSlider> {
   Widget introSlider(){
     return Container(
       height: _height/2.5,
-      //margin: EdgeInsets.only(top: _height/8),
-     ///color: Colors.red,
+      //margin: EdgeInsets.only(bottom: _height/8),
+     color: Colors.red,
       child: prefix0.IntroSlider(
         slides: this.slides,
         colorDot: Styles.taiaGreen,
@@ -155,6 +160,7 @@ class _IntroSliderState extends State<IntroSlider> {
   Widget introButtons(){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
+      //mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
      /*   SizedBox(
           width: _width,
@@ -175,7 +181,7 @@ class _IntroSliderState extends State<IntroSlider> {
           text: "Registrieren",
           isDelete: false,
         ),
-        SizedBox( height: 30,),
+        SizedBox( height: 10,),
         SizedBox(
           width: _width,
           child: RaisedButton(

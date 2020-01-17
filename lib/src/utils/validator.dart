@@ -28,9 +28,9 @@ class Validator {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
-      return "Gebe eine gültige E-Mail-Adresse ein";
+      return "Gebe eine gültige E-Mail Adresse und ein gültiges Passwort ein";
     } else if (!regExp.hasMatch(value)) {
-      return "Invalid Email !";
+      return "Gebe eine gültige E-Mail Adresse und ein gültiges Passwort ein";
     } else {
       return null;
     }

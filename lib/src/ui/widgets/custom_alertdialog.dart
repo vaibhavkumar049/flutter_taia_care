@@ -64,99 +64,75 @@ class CustomDialogBox{
                 children: <Widget>[
                   Container(
                     //  margin: EdgeInsets.only(bottom: 20),
-                    height: _height/2,
+                    height: _height/1.5,
                     width: _width,
                     //color: Colors.red,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.only( left:8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(title),
-                                  IconButton(onPressed: (){
-                                    Navigator.of(context).pop();
-                                  }
-                                      ,icon: Icon(Icons.clear, color: Styles.taiaGreen,))
-                                ],
-                              ),
+                              padding: const EdgeInsets.symmetric( horizontal:15.0),
+                              child: Text(title),
                             ),
-                            Container(
-                              height: 1,
-                              width: _width,
-                              color: Colors.grey[100],
-                            ),
-                            Container(
-                              height: _height/3,
-                              child: ListView.builder(
-                                  itemCount: list.length,
-                                  itemBuilder: (_,index){
-                                    return InkWell(
-                                      onTap: (){
+                            IconButton(onPressed: (){
+                              Navigator.of(context).pop();
+                            }
+                                ,icon: Icon(Icons.clear, color: Styles.taiaGreen,))
+                          ],
+                        ),
+                        Container(
+                          height: 1,
+                          width: _width,
+                          color: Colors.grey[100],
+                        ),
+                        Expanded(
+                          //height: _height/3,
+                          child: ListView.builder(
+                            padding: EdgeInsets.only(top: 0),
+                              itemCount: list.length,
+                              itemBuilder: (_,index){
+                                return InkWell(
+                                  onTap: (){
 //                                    model.setIsSelected(!list[index].status);
-                                        model.setSelectedCategory(list[index].text);
+                                    model.setSelectedCategory(list[index].text);
 
-                                        setState(() {
-                                          list.forEach((element) => element.status = false);
-                                          list[index].status = !list[index].status;
+                                    setState(() {
+                                      list.forEach((element) => element.status = false);
+                                      list[index].status = !list[index].status;
 
-                                        });
+                                    });
+                                    Navigator.of(context).pop();
 
 
 
                                     /*    print("Is Selected value: ${model.isSelected}");
                                         print("Selected category: ${model.selectedCategory}");*/
-                                      },
-                                      child: Card(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              Text(list[index].text),
-                                              Container(
-                                                width: _width / 20,
-                                                height: _height / 30,
-                                                decoration: BoxDecoration(
-                                                    color: list[index].status? Styles.taiaGreen : Styles
-                                                        .whiteColor,
-                                                    border: Border.all(color: !list[index].status ? Colors
-                                                        .black : Styles.taiaGreen),
-                                                    shape: BoxShape.circle
-                                                ),
-                                              )
-                                            ],
+                                  },
+                                  child: Container(
+                                    color: list[index].status?Styles.taiaGreen:Colors.white,
+                                    padding: EdgeInsets.all(15),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(list[index].text),
+                                        Container(
+                                          width: _width / 10,
+                                          height: _height / 20,
+                                          decoration: BoxDecoration(
+                                              color: Styles.whiteColor,
+                                              border: Border.all(color: Styles.boxesNarrowsGrey),
+                                              shape: BoxShape.circle
                                           ),
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                            ),
-                          ],
+                                          child: list[index].status?Icon(Icons.check):SizedBox(),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
                         ),
-
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Container(
-                              height: 1,
-                              width: _width,
-                              color: Colors.grey[100],
-                            ),
-                            SizedBox(
-                              width: _width,
-                              child: FlatButton(onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                                  child: Text("AUSWÄHLEN", style: TextStyle(
-                                      color: Styles.taiaGreen),)),
-                            )
-                          ],
-                        )
                       ],
                     ),
                   )

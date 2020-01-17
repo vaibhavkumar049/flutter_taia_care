@@ -4,6 +4,7 @@ import 'package:flutter_taia_care/src/model/list_model.dart';
 import 'package:flutter_taia_care/src/provider/library_viewmodel.dart';
 import 'package:flutter_taia_care/src/resources/styles.dart';
 import 'package:flutter_taia_care/src/ui/widgets/custom_alertdialog.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class Library extends StatefulWidget {
@@ -65,7 +66,7 @@ class _LibraryState extends State<Library> {
     ];
 
     chatList = [
-      ListTileModel(icon: Icons.local_hospital,title: "Medication", subtitle:"Shopping list with anti-inflammatory foods that help you to decrease pain and flares.", isLocked: false ),
+      ListTileModel(icon: FontAwesomeIcons.prescriptionBottleAlt,title: "Medication", subtitle:"Shopping list with anti-inflammatory foods that help you to decrease pain and flares.", isLocked: false ),
       ListTileModel(icon: Icons.shopping_cart,title: "Shopping List", subtitle:"Shopping list with anti-inflammatory foods that help you to decrease pain and flares.", isLocked: false ),
       ListTileModel(icon: Icons.shopping_cart,title: "Shopping List", subtitle:"Shopping list with anti-inflammatory foods that help you to decrease pain and flares.", isLocked: true ),
     ];
@@ -88,7 +89,7 @@ class _LibraryState extends State<Library> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      height: 100,
+                      height: 80,
                       width: _width,
                       padding: EdgeInsets.all(10),
                       color: Styles.taiaGreen,
@@ -97,11 +98,11 @@ class _LibraryState extends State<Library> {
                             borderRadius: BorderRadius.all(Radius.circular(10))
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(5),
+                          padding: const EdgeInsets.all(10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text("Kategorie", style: TextStyle(color: Styles.greyTextColor),),
+                              Text("Kategorie", style: TextStyle(color: Styles.greyTextColor, fontSize: _width/20),),
                               InkWell(
                                 onTap: (){
                                   print("is Select Category before dialog: ${model.selectedCategory}");
@@ -111,7 +112,7 @@ class _LibraryState extends State<Library> {
                                 },
                                 child: Row(
                                   children: <Widget>[
-                                    Text(model.selectedCategory!=null && model.selectedCategory.trim().length>0? model.selectedCategory: "Alles anzeigen"),
+                                    Text(model.selectedCategory!=null && model.selectedCategory.trim().length>0? model.selectedCategory: "Alles anzeigen", style: TextStyle(fontSize: _width/20),),
                                     Icon(Icons.arrow_drop_down)
                                   ],
                                 ),
@@ -140,8 +141,9 @@ class _LibraryState extends State<Library> {
               return Container(
                 height: _height/6,
                 child: Card(
+                  color: Styles.veryLightGrey,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(25))
+                    borderRadius: BorderRadius.all(Radius.circular(10))
                   ),
                   child: !chatList[index].isLocked? Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -170,12 +172,12 @@ class _LibraryState extends State<Library> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Icon(Icons.arrow_forward_ios)
+                            Icon(Icons.arrow_forward_ios, color: Styles.lightGrey,)
                           ],
                         ),
                       ],
                     ),
-                  ):Icon(Icons.lock, size: 40, color: Styles.greyTextColor,)
+                  ):Icon(Icons.lock, size: 50, color: Styles.greyTextColor,)
                 ),
               );
             }
